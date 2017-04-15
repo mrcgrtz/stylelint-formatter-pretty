@@ -1,0 +1,30 @@
+# This file is for unifying the coding style for different editors
+# and IDEs. EditorConfig is awesome: http://EditorConfig.org
+
+# ##############################################################################
+# # TOP-MOST .EDITORCONFIG FILE                                                #
+# ##############################################################################
+root = true
+
+# ##############################################################################
+# # ALL FILES                                                                  #
+# ##############################################################################
+[*]
+# indent using 2 spaces
+indent_style = space
+indent_size = 2
+tab_width = 2
+# Unix-style newlines with a newline ending every file
+end_of_line = lf
+insert_final_newline = true
+# use UTF-8 without BOM
+charset = utf-8
+# remove any trailing whitespace
+trim_trailing_whitespace = true
+
+# ##############################################################################
+# # MARKDOWN FILES                                                             #
+# ##############################################################################
+[*.md]
+# do not remove trailing spaces for line-breaks
+trim_trailing_whitespace = false
