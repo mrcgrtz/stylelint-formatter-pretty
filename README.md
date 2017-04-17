@@ -2,6 +2,8 @@
 
 > A pretty formatter for [Stylelint](https://stylelint.io/)
 
+![](screenshot.png)
+
 ## Install
 
 Using [npm](https://www.npmjs.com/get-npm):
