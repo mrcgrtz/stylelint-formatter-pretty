@@ -21,12 +21,15 @@ module.exports = results => {
   let invalidOptionWarnings = [];
 
   const cleanUpAdditionals = items => {
+    const cleanItems = [];
     items = items
       .sort((a, b) => a.text === b.text)
       .filter((item, idx, arr) => arr.findIndex(d => d.text === item.text) === idx);
-    items.forEach(x => x.text = x.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2)));
-    return items;
-  }
+    items.forEach(x => cleanItems.push({
+      text: x.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2))
+    }));
+    return cleanItems;
+  };
 
   results
     .sort((a, b) => a.warnings.length - b.warnings.length)
@@ -160,17 +163,13 @@ module.exports = results => {
     output += `  ${chalk.underline('Stylelint Configuration')}\n`;
   }
 
-  output += deprecations.map(x => {
-    return '  ' + logSymbols.info + ' ' + x.text
-  }).join('\n');
+  output += deprecations.map(x => '  ' + logSymbols.info + ' ' + x.text).join('\n');
 
   if (deprecationsCount > 0) {
     output += '\n';
   }
 
-  output += invalidOptionWarnings.map(x => {
-    return '  ' + logSymbols.error + ' ' + x.text
-  }).join('\n');
+  output += invalidOptionWarnings.map(x => '  ' + logSymbols.error + ' ' + x.text).join('\n');
 
   if (invalidOptionWarningsCount > 0) {
     output += '\n';
