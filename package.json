@@ -17,7 +17,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "xo"
+    "test": "xo && ava"
   },
   "files": [
     "index.js"
@@ -38,6 +38,8 @@
     "string-width": "^2.0.0"
   },
   "devDependencies": {
+    "ava": "^0.19.1",
+    "strip-ansi": "^3.0.1",
     "xo": "*"
   },
   "xo": {
