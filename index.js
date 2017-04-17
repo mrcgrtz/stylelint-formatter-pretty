@@ -57,7 +57,7 @@ module.exports = results => {
           message = message.replace(/\s\(.+\)$/g, '');
 
           // Stylize inline code blocks
-          message = message.replace(/\B`(.*?)`\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2));
+          message = message.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2));
 
           const line = String(x.line || 0);
           const column = String(x.column || 0);
