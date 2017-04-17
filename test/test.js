@@ -3,6 +3,7 @@ import stripAnsi from 'strip-ansi';
 import m from '../';
 import defaultFixture from './fixtures/default';
 import deprecationsFixture from './fixtures/deprecations';
+import invalidOptionsFixture from './fixtures/invalidOptions';
 
 test('output', t => {
   const output = m(defaultFixture);
@@ -18,4 +19,13 @@ test('deprecations', t => {
   t.regex(stripAnsi(output), /ℹ time-no-imperceptible has been deprecated and in 8.0 will be removed. Instead use time-min-milliseconds with 100 as its primary option./);
   t.regex(stripAnsi(output), /ℹ block-no-single-line has been deprecated and in 8.0 will be removed. Instead use block-opening-brace-newline-after and block-closing-brace-newline-before with the always option./);
   t.regex(stripAnsi(output), /2 deprecations/);
+});
+
+test('invalid options', t => {
+  const output = m(invalidOptionsFixture);
+  console.log(output);
+  t.regex(stripAnsi(output), /Stylelint Configuration\n/);
+  t.regex(stripAnsi(output), /✖ Invalid option value snakeCase for rule value-keyword-case/);
+  t.regex(stripAnsi(output), /✖ Unexpected option value always for rule no-unknown-animations/);
+  t.regex(stripAnsi(output), /2 invalid options/);
 });
