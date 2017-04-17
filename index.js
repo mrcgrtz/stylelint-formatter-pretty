@@ -11,15 +11,35 @@ module.exports = results => {
   const lines = [];
   let errorCount = 0;
   let warningsCount = 0;
+  let deprecationsCount = 0;
+  let invalidOptionWarningsCount = 0;
   let maxLineWidth = 0;
   let maxColumnWidth = 0;
   let maxMessageWidth = 0;
   let showLineNumbers = false;
+  let deprecations = [];
+  let invalidOptionWarnings = [];
+
+  const cleanUpAdditionals = items => {
+    items = items
+      .sort((a, b) => a.text === b.text)
+      .filter((item, idx, arr) => arr.findIndex(d => d.text === item.text) === idx);
+    items.forEach(x => x.text = x.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2)));
+    return items;
+  }
 
   results
     .sort((a, b) => a.warnings.length - b.warnings.length)
     .forEach(result => {
       const warnings = result.warnings;
+
+      if (result.deprecations.length > 0) {
+        result.deprecations.forEach(x => deprecations.push(x));
+      }
+
+      if (result.invalidOptionWarnings.length > 0) {
+        result.invalidOptionWarnings.forEach(x => invalidOptionWarnings.push(x));
+      }
 
       if (warnings.length === 0) {
         return;
@@ -91,6 +111,12 @@ module.exports = results => {
         });
     });
 
+  deprecations = cleanUpAdditionals(deprecations);
+  deprecationsCount = deprecations.length;
+
+  invalidOptionWarnings = cleanUpAdditionals(invalidOptionWarnings);
+  invalidOptionWarningsCount = invalidOptionWarnings.length;
+
   let output = '\n';
 
   if (process.stdout.isTTY && !process.env.CI) {
@@ -124,7 +150,35 @@ module.exports = results => {
     }
 
     return '';
-  }).join('\n') + '\n\n';
+  }).join('\n');
+
+  if (warningsCount + errorCount > 0) {
+    output += '\n\n';
+  }
+
+  if (deprecationsCount + invalidOptionWarningsCount > 0) {
+    output += `  ${chalk.underline('Stylelint Configuration')}\n`;
+  }
+
+  output += deprecations.map(x => {
+    return '  ' + logSymbols.info + ' ' + x.text
+  }).join('\n');
+
+  if (deprecationsCount > 0) {
+    output += '\n';
+  }
+
+  output += invalidOptionWarnings.map(x => {
+    return '  ' + logSymbols.error + ' ' + x.text
+  }).join('\n');
+
+  if (invalidOptionWarningsCount > 0) {
+    output += '\n';
+  }
+
+  if (deprecationsCount + invalidOptionWarningsCount > 0) {
+    output += '\n';
+  }
 
   if (warningsCount > 0) {
     output += '  ' + chalk.yellow(`${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
@@ -134,5 +188,13 @@ module.exports = results => {
     output += '  ' + chalk.red(`${errorCount} ${plur('error', errorCount)}`) + '\n';
   }
 
-  return (errorCount + warningsCount) > 0 ? output : '';
+  if (deprecationsCount > 0) {
+    output += '  ' + chalk.blue(`${deprecationsCount} ${plur('deprecation', deprecationsCount)}`) + '\n';
+  }
+
+  if (invalidOptionWarningsCount > 0) {
+    output += '  ' + chalk.red(`${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
+  }
+
+  return (errorCount + warningsCount + deprecationsCount + invalidOptionWarningsCount) > 0 ? output : '';
 };
