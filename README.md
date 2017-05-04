@@ -87,4 +87,4 @@ In iTerm, <kbd>Cmd</kbd>+Click the filename header to open the file in your edit
 
 ## License
 
-MIT © [Sindre Sorhus](https://sindresorhus.com/)
+MIT © [Sindre Sorhus](https://sindresorhus.com/), [Marc Görtz](https://marcgoertz.de/)
