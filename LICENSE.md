@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)  
 Copyright (c) Marc Görtz
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
