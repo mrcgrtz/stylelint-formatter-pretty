@@ -29,10 +29,12 @@ $ stylelint file.css --custom-formatter=node_modules/stylelint-formatter-pretty
 ### [grunt-stylelint](https://github.com/wikimedia/grunt-stylelint)
 
 ```js
+const stylelintFormatter = require('stylelint-formatter-pretty');
+
 grunt.initConfig({
   stylelint: {
     options: {
-      formatter: require('stylelint-formatter-pretty')()
+      formatter: stylelintFormatter
     },
     all: ['css/**/*.css']
   }
