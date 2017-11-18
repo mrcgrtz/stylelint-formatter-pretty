@@ -31,13 +31,13 @@
   ],
   "dependencies": {
     "ansi-escapes": "^3.0.0",
-    "chalk": "^2.1.0",
-    "log-symbols": "^2.0.0",
+    "chalk": "^2.3.0",
+    "log-symbols": "^2.1.0",
     "plur": "^2.1.2",
     "string-width": "^2.1.1"
   },
   "devDependencies": {
-    "ava": "^0.22.0",
+    "ava": "^0.23.0",
     "strip-ansi": "^4.0.0",
     "xo": "^0.18.2"
   },
