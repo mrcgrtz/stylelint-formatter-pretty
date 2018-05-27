@@ -1,6 +1,6 @@
 {
   "name": "stylelint-formatter-pretty",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A pretty Stylelint formatter.",
   "license": "MIT",
   "repository": {
@@ -13,7 +13,7 @@
     "url": "https://marcgoertz.de/"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "scripts": {
     "test": "xo && nyc ava",
