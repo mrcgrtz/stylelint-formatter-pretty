@@ -35,7 +35,7 @@ module.exports = results => {
     results
       .sort((a, b) => a.warnings.length - b.warnings.length)
       .forEach(result => {
-        const warnings = result.warnings;
+        const {warnings} = result;
 
         if (result.deprecations.length > 0) {
           result.deprecations.forEach(x => deprecations.push(x));
@@ -69,7 +69,8 @@ module.exports = results => {
                 return a.column < b.column ? -1 : 1;
               }
               return a.line < b.line ? -1 : 1;
-            } else if (a.severity === 2 && b.severity !== 2) {
+            }
+            if (a.severity === 2 && b.severity !== 2) {
               return 1;
             }
             return -1;
