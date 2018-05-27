@@ -31,18 +31,18 @@
     "validate"
   ],
   "dependencies": {
-    "ansi-escapes": "^3.0.0",
-    "chalk": "^2.3.0",
-    "log-symbols": "^2.1.0",
-    "plur": "^2.1.2",
+    "ansi-escapes": "^3.1.0",
+    "chalk": "^2.4.1",
+    "log-symbols": "^2.2.0",
+    "plur": "^3.0.1",
     "string-width": "^2.1.1"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
-    "coveralls": "^3.0.0",
-    "nyc": "^11.4.1",
+    "ava": "^0.25.0",
+    "coveralls": "^3.0.1",
+    "nyc": "^11.8.0",
     "strip-ansi": "^4.0.0",
-    "xo": "^0.18.2"
+    "xo": "^0.21.1"
   },
   "xo": {
     "esnext": true,
