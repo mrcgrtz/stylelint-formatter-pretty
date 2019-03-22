@@ -164,7 +164,8 @@ module.exports = results => {
           '',
           logSymbols.warning,
           ' '.repeat(maxLineWidth - x.lineWidth) + chalk.dim(x.line + chalk.gray(':') + x.column),
-          ' '.repeat(maxColumnWidth - x.columnWidth) + x.message + '     ' + chalk.gray.dim(x.ruleId),
+          ' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
+          ' '.repeat(maxMessageWidth - x.messageWidth) + chalk.gray.dim(x.ruleId)
         ];
 
         if (!showLineNumbers) {
