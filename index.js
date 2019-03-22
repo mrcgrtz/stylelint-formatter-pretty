@@ -9,9 +9,8 @@ const ansiEscapes = require('ansi-escapes');
 
 module.exports = results => {
   if (Array.isArray(results) && results.length > 0) {
-    const lines = [];
-    let errorCount = 0;
-    let warningsCount = 0;
+    const errorLines = [];
+    const warningLines = [];
     let deprecationsCount = 0;
     let invalidOptionWarningsCount = 0;
     let maxLineWidth = 0;
@@ -35,7 +34,12 @@ module.exports = results => {
     results
       .sort((a, b) => a.warnings.length - b.warnings.length)
       .forEach(result => {
-        const {warnings} = result;
+        const warnings = result.warnings;
+
+        if (warnings.length === 0) {
+          return;
+        }
+
 
         if (result.deprecations.length > 0) {
           result.deprecations.forEach(x => deprecations.push(x));
@@ -45,22 +49,32 @@ module.exports = results => {
           result.invalidOptionWarnings.forEach(x => invalidOptionWarnings.push(x));
         }
 
-        if (warnings.length === 0) {
-          return;
-        }
 
-        if (lines.length !== 0) {
-          lines.push({type: 'separator'});
+        if (warningLines.length !== 0) {
+          warningLines.push({type: 'separator'});
         }
 
         const filePath = result.source;
 
-        lines.push({
+        warningLines.push({
           type: 'header',
           filePath,
           relativeFilePath: path.relative('.', filePath),
           firstLineCol: warnings[0].line + ':' + warnings[0].column
         });
+
+        //If the result has any errors then add the separator to the errorLines array
+        if(result.errored){
+          if(errorLines.length !== 0){
+            errorLines.push({type: 'separator'});
+          }
+          errorLines.push({
+            type: 'header',
+            filePath,
+            relativeFilePath: path.relative('.', filePath),
+            firstLineCol: warnings[0].line + ':' + warnings[0].column
+          });
+        }
 
         warnings
           .sort((a, b) => {
@@ -69,8 +83,7 @@ module.exports = results => {
                 return a.column < b.column ? -1 : 1;
               }
               return a.line < b.line ? -1 : 1;
-            }
-            if (a.severity === 2 && b.severity !== 2) {
+            } else if (a.severity === 2 && b.severity !== 2) {
               return 1;
             }
             return -1;
@@ -92,27 +105,35 @@ module.exports = results => {
             let severity = 'warning';
             if (x.severity === 2 || x.severity === 'error') {
               severity = 'error';
-              errorCount++;
+              errorLines.push({
+                type: 'message',
+                severity,
+                line,
+                lineWidth,
+                column,
+                columnWidth,
+                message,
+                messageWidth,
+                ruleId: x.rule || ''
+              });
             } else {
-              warningsCount++;
+              warningLines.push({
+                type: 'message',
+                severity,
+                line,
+                lineWidth,
+                column,
+                columnWidth,
+                message,
+                messageWidth,
+                ruleId: x.rule || ''
+              });
             }
 
             maxLineWidth = Math.max(lineWidth, maxLineWidth);
             maxColumnWidth = Math.max(columnWidth, maxColumnWidth);
             maxMessageWidth = Math.max(messageWidth, maxMessageWidth);
             showLineNumbers = showLineNumbers || x.line || x.column;
-
-            lines.push({
-              type: 'message',
-              severity,
-              line,
-              lineWidth,
-              column,
-              columnWidth,
-              message,
-              messageWidth,
-              ruleId: x.rule || ''
-            });
           });
       });
 
@@ -129,7 +150,7 @@ module.exports = results => {
       output += ansiEscapes.iTerm.setCwd();
     }
 
-    output += lines.map(x => {
+    output += warningLines.map(x => {
       if (x.type === 'header') {
         // Add the line number so it's Cmd+click'able in some terminals
         // Use dim & gray for terminals like iTerm that doesn't support `hidden`
@@ -141,10 +162,9 @@ module.exports = results => {
       if (x.type === 'message') {
         const line = [
           '',
-          x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
+          logSymbols.warning,
           ' '.repeat(maxLineWidth - x.lineWidth) + chalk.dim(x.line + chalk.gray(':') + x.column),
-          ' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
-          ' '.repeat(maxMessageWidth - x.messageWidth) + chalk.gray.dim(x.ruleId)
+          ' '.repeat(maxColumnWidth - x.columnWidth) + x.message + '     ' + chalk.gray.dim(x.ruleId),
         ];
 
         if (!showLineNumbers) {
@@ -157,7 +177,37 @@ module.exports = results => {
       return '';
     }).join('\n');
 
-    if (warningsCount + errorCount > 0) {
+    if(errorLines.length !=0){
+      output += errorLines.map(x => {
+        if (x.type === 'header') {
+          // Add the line number so it's Cmd+click'able in some terminals
+          // Use dim & gray for terminals like iTerm that doesn't support `hidden`
+          const position = showLineNumbers ? chalk.hidden.dim.gray(`:${x.firstLineCol}`) : '';
+
+          return '  ' + chalk.underline(x.relativeFilePath + position);
+        }
+
+        if (x.type === 'message') {
+          const line = [
+            '',
+            logSymbols.error,
+            ' '.repeat(maxLineWidth - x.lineWidth) + chalk.dim(x.line + chalk.gray(':') + x.column),
+            ' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
+            ' '.repeat(maxMessageWidth - x.messageWidth) + chalk.gray.dim(x.ruleId)
+          ];
+
+          if (!showLineNumbers) {
+            line.splice(2, 1);
+          }
+
+          return line.join('  ');
+        }
+
+        return '';
+      }).join('\n');
+    }
+
+    if (warningLines.length + errorLines.length > 0) {
       output += '\n\n';
     }
 
@@ -181,12 +231,12 @@ module.exports = results => {
       output += '\n';
     }
 
-    if (warningsCount > 0) {
-      output += '  ' + chalk.yellow(`${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
+    if (warningLines.length > 0) {
+      output += '  ' + chalk.yellow(`${warningLines.length} ${plur('warning', warningLines.length)}`) + '\n';
     }
 
-    if (errorCount > 0) {
-      output += '  ' + chalk.red(`${errorCount} ${plur('error', errorCount)}`) + '\n';
+    if (errorLines.length > 0) {
+      output += '  ' + chalk.red(`${errorLines.length} ${plur('error', errorLines.length)}`) + '\n';
     }
 
     if (deprecationsCount > 0) {
@@ -197,7 +247,7 @@ module.exports = results => {
       output += '  ' + chalk.red(`${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
     }
 
-    return (errorCount + warningsCount + deprecationsCount + invalidOptionWarningsCount) > 0 ? output : '';
+    return (errorLines.length + warningLines.length + deprecationsCount + invalidOptionWarningsCount) > 0 ? output  : '';
   }
   return '';
 };
