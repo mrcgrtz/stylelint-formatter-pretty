@@ -1,4 +1,4 @@
-# stylelint-formatter-pretty [![Build Status](https://travis-ci.org/Dreamseer/stylelint-formatter-pretty.svg?branch=master)](https://travis-ci.org/Dreamseer/stylelint-formatter-pretty) [![Coverage Status](https://coveralls.io/repos/github/Dreamseer/stylelint-formatter-pretty/badge.svg?branch=master)](https://coveralls.io/github/Dreamseer/stylelint-formatter-pretty?branch=master)
+# stylelint-formatter-pretty [![Build Status](https://travis-ci.org/Dreamseer/stylelint-formatter-pretty.svg?branch=master)](https://travis-ci.org/Dreamseer/stylelint-formatter-pretty) [![Coverage Status](https://coveralls.io/repos/github/Dreamseer/stylelint-formatter-pretty/badge.svg?branch=master)](https://coveralls.io/github/Dreamseer/stylelint-formatter-pretty?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/Dreamseer/stylelint-formatter-pretty.svg)](https://greenkeeper.io/)
 
 > A pretty formatter for [Stylelint](https://stylelint.io/)
 
