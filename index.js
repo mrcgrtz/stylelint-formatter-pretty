@@ -68,11 +68,14 @@ module.exports = results => {
               if (a.line === b.line) {
                 return a.column < b.column ? -1 : 1;
               }
+
               return a.line < b.line ? -1 : 1;
             }
+
             if (a.severity === 2 && b.severity !== 2) {
               return 1;
             }
+
             return -1;
           })
           .forEach(x => {
@@ -199,5 +202,6 @@ module.exports = results => {
 
     return (errorCount + warningsCount + deprecationsCount + invalidOptionWarningsCount) > 0 ? output : '';
   }
+
   return '';
 };
