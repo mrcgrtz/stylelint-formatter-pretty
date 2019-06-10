@@ -32,14 +32,14 @@
   ],
   "dependencies": {
     "ansi-escapes": "^4.1.0",
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "log-symbols": "^3.0.0",
-    "plur": "^3.0.1",
+    "plur": "^3.1.1",
     "string-width": "^4.1.0"
   },
   "devDependencies": {
-    "ava": "^1.4.1",
-    "coveralls": "^3.0.2",
+    "ava": "^2.1.0",
+    "coveralls": "^3.0.4",
     "nyc": "^14.1.1",
     "strip-ansi": "^5.2.0",
     "xo": "^0.24.0"
