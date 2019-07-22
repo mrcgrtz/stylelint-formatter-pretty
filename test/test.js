@@ -1,9 +1,9 @@
 import test from 'ava';
 import stripAnsi from 'strip-ansi';
-import m from '..';
 import defaultFixture from './fixtures/default';
 import deprecationsFixture from './fixtures/deprecations';
 import invalidOptionsFixture from './fixtures/invalidOptions';
+import m from '..';
 
 test('output', t => {
   const output = m(defaultFixture);
