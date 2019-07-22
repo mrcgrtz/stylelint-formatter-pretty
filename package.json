@@ -31,15 +31,15 @@
     "validate"
   ],
   "dependencies": {
-    "ansi-escapes": "^4.1.0",
+    "ansi-escapes": "^4.2.0",
     "chalk": "^2.4.2",
     "log-symbols": "^3.0.0",
     "plur": "^3.1.1",
     "string-width": "^4.1.0"
   },
   "devDependencies": {
-    "ava": "^2.1.0",
-    "coveralls": "^3.0.4",
+    "ava": "^2.2.0",
+    "coveralls": "^3.0.5",
     "nyc": "^14.1.1",
     "strip-ansi": "^5.2.0",
     "xo": "^0.24.0"
