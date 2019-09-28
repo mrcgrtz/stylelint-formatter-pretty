@@ -1,8 +1,8 @@
 import test from 'ava';
 import stripAnsi from 'strip-ansi';
-import defaultFixture from './fixtures/default';
-import deprecationsFixture from './fixtures/deprecations';
-import invalidOptionsFixture from './fixtures/invalidOptions';
+import defaultFixture from '../fixtures/default.json';
+import deprecationsFixture from '../fixtures/deprecations.json';
+import invalidOptionsFixture from '../fixtures/invalidOptions.json';
 import m from '..';
 
 test('output', t => {
