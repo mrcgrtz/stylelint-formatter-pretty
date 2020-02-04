@@ -38,7 +38,7 @@
     "string-width": "^4.2.0"
   },
   "devDependencies": {
-    "ava": "^3.0.0",
+    "ava": "^3.2.0",
     "coveralls": "^3.0.9",
     "nyc": "^15.0.0",
     "strip-ansi": "^6.0.0",
