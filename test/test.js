@@ -1,9 +1,9 @@
-import test from 'ava';
-import stripAnsi from 'strip-ansi';
-import defaultFixture from '../fixtures/default.json';
-import deprecationsFixture from '../fixtures/deprecations.json';
-import invalidOptionsFixture from '../fixtures/invalidOptions.json';
-import m from '..';
+const test = require('ava');
+const stripAnsi = require('strip-ansi');
+const defaultFixture = require('../fixtures/default.json');
+const deprecationsFixture = require('../fixtures/deprecations.json');
+const invalidOptionsFixture = require('../fixtures/invalidOptions.json');
+const m = require('..');
 
 test('output', t => {
   const output = m(defaultFixture);
