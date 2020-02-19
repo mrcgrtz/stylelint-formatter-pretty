@@ -34,15 +34,15 @@
     "ansi-escapes": "^4.3.0",
     "chalk": "^3.0.0",
     "log-symbols": "^3.0.0",
-    "plur": "^3.1.1",
+    "plur": "^4.0.0",
     "string-width": "^4.2.0"
   },
   "devDependencies": {
-    "ava": "^3.2.0",
+    "ava": "^3.3.0",
     "coveralls": "^3.0.9",
     "nyc": "^15.0.0",
     "strip-ansi": "^6.0.0",
-    "xo": "^0.25.3"
+    "xo": "^0.26.1"
   },
   "xo": {
     "space": true
