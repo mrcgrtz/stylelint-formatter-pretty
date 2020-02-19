@@ -11,28 +11,28 @@
 [![MIT license](https://img.shields.io/github/license/dreamseer/stylelint-formatter-pretty.svg)](https://github.com/Dreamseer/stylelint-formatter-pretty/blob/master/LICENSE.md)
 [![Greenkeeper badge](https://badges.greenkeeper.io/Dreamseer/stylelint-formatter-pretty.svg)](https://greenkeeper.io/)
 
-![](screenshot.png)
+![Screesnhot](screenshot.png)
 
 ## Install
 
 Using [npm](https://www.npmjs.com/get-npm):
 
-```
-$ npm install --save-dev stylelint-formatter-pretty
+```bash
+npm install --save-dev stylelint-formatter-pretty
 ```
 
 Using [yarn](https://yarnpkg.com/):
 
-```
-$ yarn add stylelint-formatter-pretty --dev
+```bash
+yarn add stylelint-formatter-pretty --dev
 ```
 
 ## Usage
 
 ### Stylelint CLI
 
-```
-$ stylelint file.css --custom-formatter=node_modules/stylelint-formatter-pretty
+```bash
+stylelint file.css --custom-formatter=node_modules/stylelint-formatter-pretty
 ```
 
 ### [grunt-stylelint](https://github.com/wikimedia/grunt-stylelint)
