@@ -8,7 +8,7 @@ const m = require('..');
 test('output', t => {
   const output = m(defaultFixture);
   t.regex(stripAnsi(output), /first\.css:3:12\n/);
-  t.regex(stripAnsi(output), /✖[ ]{3}3:12[ ]{2}Unexpected leading zero[ ]{26}number-leading-zero/);
+  t.regex(stripAnsi(output), /✖ {3}3:12 {2}Unexpected leading zero {26}number-leading-zero/);
 });
 
 test('deprecations', t => {

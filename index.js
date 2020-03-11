@@ -25,7 +25,7 @@ module.exports = results => {
       const cleanItems = [];
       items = items
         .sort((a, b) => a.text === b.text)
-        .filter((item, idx, arr) => arr.findIndex(d => d.text === item.text) === idx);
+        .filter((item, idx, array) => array.findIndex(d => d.text === item.text) === idx);
       items.forEach(x => cleanItems.push({
         text: x.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2))
       }));
