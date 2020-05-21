@@ -44,6 +44,10 @@ module.exports = results => {
         if (result.invalidOptionWarnings.length > 0) {
           result.invalidOptionWarnings.forEach(x => invalidOptionWarnings.push(x));
         }
+      
+        if (result.parseErrors.length > 0) {
+          result.parseErrors.forEach(x => warnings.push(x));
+        }
 
         if (warnings.length === 0) {
           return;
