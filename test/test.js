@@ -3,6 +3,7 @@ const stripAnsi = require('strip-ansi');
 const defaultFixture = require('../fixtures/default.json');
 const deprecationsFixture = require('../fixtures/deprecations.json');
 const invalidOptionsFixture = require('../fixtures/invalidOptions.json');
+const parseErrorFixture = require('../fixtures/parseError.json');
 const m = require('..');
 
 test('output', t => {
@@ -25,6 +26,13 @@ test('invalid options', t => {
   t.regex(stripAnsi(output), /✖ Invalid option value snakeCase for rule value-keyword-case/);
   t.regex(stripAnsi(output), /✖ Unexpected option value always for rule no-unknown-animations/);
   t.regex(stripAnsi(output), /2 invalid options/);
+});
+
+test('parse errors', t => {
+  const output = m(parseErrorFixture);
+  t.regex(stripAnsi(output), /first\.css:7:12\n/);
+  t.regex(stripAnsi(output), /✖ {2}7:12 {2}Unexpected token {2}parseError/);
+  t.regex(stripAnsi(output), /1 error/);
 });
 
 test('empty results', t => {
