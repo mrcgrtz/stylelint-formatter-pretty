@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/Dreamseer/stylelint-formatter-pretty.git"
   },
+  "funding": {
+    "type": "kofi",
+    "url": "https://ko-fi.com/dreamseer"
+  },
   "author": {
     "name": "Marc Görtz",
     "email": "git@marcgoertz.de",
