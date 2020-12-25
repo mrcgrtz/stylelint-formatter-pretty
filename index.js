@@ -53,7 +53,7 @@ module.exports = results => {
           return;
         }
 
-        if (lines.length !== 0) {
+        if (lines.length > 0) {
           lines.push({type: 'separator'});
         }
 
