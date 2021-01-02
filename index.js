@@ -7,7 +7,10 @@ const plur = require('plur');
 const stringWidth = require('string-width');
 const ansiEscapes = require('ansi-escapes');
 
-module.exports = results => {
+/**
+ * @type {import('stylelint').Formatter}
+ */
+function formatter(results) {
   if (Array.isArray(results) && results.length > 0) {
     const lines = [];
     let errorCount = 0;
@@ -208,4 +211,6 @@ module.exports = results => {
   }
 
   return '';
-};
+}
+
+module.exports = formatter;
