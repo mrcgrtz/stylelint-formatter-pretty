@@ -17,7 +17,7 @@
     "url": "https://marcgoertz.de/"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "scripts": {
     "test": "xo && nyc ava",
