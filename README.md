@@ -38,7 +38,7 @@ stylelint file.css --custom-formatter=node_modules/stylelint-formatter-pretty
 ### [grunt-stylelint](https://github.com/wikimedia/grunt-stylelint)
 
 ```js
-const stylelintFormatter = require('stylelint-formatter-pretty');
+import stylelintFormatter from 'stylelint-formatter-pretty';
 
 grunt.initConfig({
   stylelint: {
@@ -56,9 +56,9 @@ grunt.registerTask('default', ['stylelint']);
 ### [gulp-stylelint](https://github.com/olegskl/gulp-stylelint)
 
 ```js
-const gulp = require('gulp');
-const stylelint = require('gulp-stylelint');
-const stylelintFormatter = require('stylelint-formatter-pretty');
+import gulp from 'gulp';
+import stylelint from 'gulp-stylelint';
+import stylelintFormatter from 'stylelint-formatter-pretty';
 
 gulp.task('lint', () =>
   gulp.src('file.css')
@@ -74,8 +74,8 @@ gulp.task('lint', () =>
 ### [Webpack](https://github.com/JaKXz/stylelint-webpack-plugin)
 
 ```js
-const styleLintPlugin = require('stylelint-webpack-plugin');
-const stylelintFormatter = require('stylelint-formatter-pretty');
+import styleLintPlugin from 'stylelint-webpack-plugin';
+import stylelintFormatter from 'stylelint-formatter-pretty';
 
 module.exports = {
   // ...
