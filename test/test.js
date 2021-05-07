@@ -1,10 +1,10 @@
-const test = require('ava');
-const stripAnsi = require('strip-ansi');
-const defaultFixture = require('../fixtures/default.json');
-const deprecationsFixture = require('../fixtures/deprecations.json');
-const invalidOptionsFixture = require('../fixtures/invalidOptions.json');
-const parseErrorFixture = require('../fixtures/parseError.json');
-const m = require('..');
+import test from 'ava';
+import stripAnsi from 'strip-ansi';
+import defaultFixture from '../fixtures/default.js';
+import deprecationsFixture from '../fixtures/deprecations.js';
+import invalidOptionsFixture from '../fixtures/invalid-options.js';
+import parseErrorFixture from '../fixtures/parse-error.js';
+import m from '../index.js';
 
 test('output', t => {
   const output = m(defaultFixture);

@@ -1,11 +1,11 @@
 'use strict';
 
-const path = require('path');
-const chalk = require('chalk');
-const logSymbols = require('log-symbols');
-const plur = require('plur');
-const stringWidth = require('string-width');
-const ansiEscapes = require('ansi-escapes');
+import path from 'node:path';
+import chalk from 'chalk';
+import logSymbols from 'log-symbols';
+import plur from 'plur';
+import stringWidth from 'string-width';
+import ansiEscapes from 'ansi-escapes';
 
 /**
  * @type {import('stylelint').Formatter}
@@ -29,9 +29,12 @@ function formatter(results) {
       items = items
         .sort((a, b) => a.text === b.text)
         .filter((item, idx, array) => array.findIndex(d => d.text === item.text) === idx);
-      items.forEach(x => cleanItems.push({
-        text: x.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2))
-      }));
+      for (const x of items) {
+        cleanItems.push({
+          text: x.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2))
+        });
+      }
+
       return cleanItems;
     };
 
@@ -41,15 +44,21 @@ function formatter(results) {
         const {warnings} = result;
 
         if (result.deprecations.length > 0) {
-          result.deprecations.forEach(x => deprecations.push(x));
+          for (const x of result.deprecations) {
+            deprecations.push(x);
+          }
         }
 
         if (result.invalidOptionWarnings.length > 0) {
-          result.invalidOptionWarnings.forEach(x => invalidOptionWarnings.push(x));
+          for (const x of result.invalidOptionWarnings) {
+            invalidOptionWarnings.push(x);
+          }
         }
 
         if (result.parseErrors && result.parseErrors.length > 0) {
-          result.parseErrors.forEach(x => warnings.push(x));
+          for (const x of result.parseErrors) {
+            warnings.push(x);
+          }
         }
 
         if (warnings.length === 0) {
@@ -213,4 +222,4 @@ function formatter(results) {
   return '';
 }
 
-module.exports = formatter;
+export default formatter;

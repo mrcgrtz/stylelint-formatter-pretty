@@ -19,9 +19,11 @@
   "engines": {
     "node": ">=14"
   },
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "test": "xo && nyc ava",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "test": "xo && c8 ava",
+    "coveralls": "c8 report --reporter=text-lcov | coveralls"
   },
   "files": [
     "index.js"
@@ -35,20 +37,23 @@
     "validate"
   ],
   "dependencies": {
-    "ansi-escapes": "^4.3.2",
+    "ansi-escapes": "^5.0.0",
     "chalk": "^4.1.1",
-    "log-symbols": "^4.1.0",
+    "log-symbols": "^5.0.0",
     "plur": "^4.0.0",
-    "string-width": "^4.2.2"
+    "string-width": "^5.0.0"
   },
   "devDependencies": {
     "ava": "^3.15.0",
+    "c8": "^7.7.2",
     "coveralls": "^3.1.0",
-    "nyc": "^15.1.0",
-    "strip-ansi": "^6.0.0",
-    "xo": "^0.37.1"
+    "strip-ansi": "^7.0.0",
+    "xo": "^0.39.1"
   },
   "xo": {
-    "space": true
+    "space": true,
+    "rules": {
+      "unicorn/no-array-for-each": "off"
+    }
   }
 }
