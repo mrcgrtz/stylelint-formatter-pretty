@@ -1,18 +1,18 @@
 # This file is for unifying the coding style for different editors
 # and IDEs. EditorConfig is awesome: http://EditorConfig.org
 
-# ##############################################################################
-# # TOP-MOST .EDITORCONFIG FILE                                                #
-# ##############################################################################
+# ######################################################################
+# # TOP-MOST .EDITORCONFIG FILE                                        #
+# ######################################################################
 root = true
 
-# ##############################################################################
-# # ALL FILES                                                                  #
-# ##############################################################################
+# ######################################################################
+# # ALL FILES                                                          #
+# ######################################################################
 [*]
-# indent using 2 spaces
-indent_style = space
-indent_size = 2
+# indent using tabs
+indent_style = tab
+indent_size = tab
 tab_width = 2
 # Unix-style newlines with a newline ending every file
 end_of_line = lf
@@ -22,9 +22,18 @@ charset = utf-8
 # remove any trailing whitespace
 trim_trailing_whitespace = true
 
-# ##############################################################################
-# # MARKDOWN FILES                                                             #
-# ##############################################################################
+# ######################################################################
+# # MARKDOWN FILES                                                     #
+# ######################################################################
 [*.md]
 # do not remove trailing spaces for line-breaks
 trim_trailing_whitespace = false
+
+# ######################################################################
+# # PACKAGE FILES                                                      #
+# ######################################################################
+[package.json]
+# The indent size used in the `package.json` file cannot be changed
+# https://github.com/npm/npm/pull/3180#issuecomment-16336516
+indent_style = space
+indent_size = 2

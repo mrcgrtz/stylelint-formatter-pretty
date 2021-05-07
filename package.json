@@ -51,7 +51,6 @@
     "xo": "^0.39.1"
   },
   "xo": {
-    "space": true,
     "rules": {
       "unicorn/no-array-for-each": "off"
     }
