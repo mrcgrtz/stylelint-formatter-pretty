@@ -24,19 +24,12 @@ function formatter(results) {
     let deprecations = [];
     let invalidOptionWarnings = [];
 
-    const cleanUpAdditionals = items => {
-      const cleanItems = [];
-      items = items
-        .sort((a, b) => a.text === b.text)
-        .filter((item, idx, array) => array.findIndex(d => d.text === item.text) === idx);
-      for (const x of items) {
-        cleanItems.push({
-          text: x.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2))
-        });
-      }
-
-      return cleanItems;
-    };
+    const cleanUpAdditionals = items => items
+      .sort((a, b) => a.text === b.text)
+      .filter((item, idx, array) => array.findIndex(d => d.text === item.text) === idx)
+      .map(item => ({
+        text: item.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2))
+      }));
 
     results
       .sort((a, b) => a.warnings.length - b.warnings.length)
