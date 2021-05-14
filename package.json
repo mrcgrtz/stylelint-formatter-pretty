@@ -23,7 +23,7 @@
   "main": "index.js",
   "scripts": {
     "test": "xo && c8 ava",
-    "coveralls": "c8 report --reporter=text-lcov | coveralls"
+    "coverage": "c8 report --reporter=lcov"
   },
   "files": [
     "index.js"
@@ -46,7 +46,6 @@
   "devDependencies": {
     "ava": "^3.15.0",
     "c8": "^7.7.2",
-    "coveralls": "^3.1.0",
     "strip-ansi": "^7.0.0",
     "xo": "^0.39.1"
   },
