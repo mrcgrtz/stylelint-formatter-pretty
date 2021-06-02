@@ -11,7 +11,7 @@
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![MIT license](https://img.shields.io/github/license/dreamseer/stylelint-formatter-pretty.svg)](https://github.com/Dreamseer/stylelint-formatter-pretty/blob/main/LICENSE.md)
 
-![Screesnhot](screenshot.png)
+![Screenshot](screenshot.png)
 
 ## Install
 
