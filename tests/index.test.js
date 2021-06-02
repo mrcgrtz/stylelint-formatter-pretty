@@ -1,10 +1,12 @@
 import test from 'ava';
 import stripAnsi from 'strip-ansi';
-import defaultFixture from '../fixtures/default.js';
-import deprecationsFixture from '../fixtures/deprecations.js';
-import invalidOptionsFixture from '../fixtures/invalid-options.js';
-import parseErrorFixture from '../fixtures/parse-error.js';
+
 import m from '../index.js';
+
+import defaultFixture from './fixtures/default.js';
+import deprecationsFixture from './fixtures/deprecations.js';
+import invalidOptionsFixture from './fixtures/invalid-options.js';
+import parseErrorFixture from './fixtures/parse-error.js';
 
 test('output', t => {
 	const output = m(defaultFixture);
