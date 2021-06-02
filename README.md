@@ -4,7 +4,7 @@
 
 ![Update Status for Dependencies](https://img.shields.io/david/dreamseer/stylelint-formatter-pretty.svg)
 ![Update Status for Dev Dependencies](https://img.shields.io/david/dev/dreamseer/stylelint-formatter-pretty.svg)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dreamseer/stylelint-formatter-pretty/default/main)](https://github.com/Dreamseer/stylelint-formatter-pretty/actions/workflows/default.yml)
+[![Tests](https://github.com/Dreamseer/stylelint-formatter-pretty/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Dreamseer/stylelint-formatter-pretty/actions/workflows/run-tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Dreamseer/stylelint-formatter-pretty/badge.svg?branch=main)](https://coveralls.io/github/Dreamseer/stylelint-formatter-pretty?branch=main)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/dreamseer/stylelint-formatter-pretty)
 [![Install size](https://packagephobia.now.sh/badge?p=stylelint-formatter-pretty)](https://packagephobia.now.sh/result?p=stylelint-formatter-pretty)
