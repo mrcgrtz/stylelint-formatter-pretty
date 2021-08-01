@@ -11,11 +11,11 @@ const fixture = [
 				column: 12,
 				rule: 'parseError',
 				severity: 'error',
-				text: 'Unexpected token (7:12)'
-			}
+				text: 'Unexpected token (7:12)',
+			},
 		],
-		ignored: false
-	}
+		ignored: false,
+	},
 ];
 
 export default fixture;

@@ -8,18 +8,18 @@ const fixture = [
 				column: 12,
 				rule: 'number-leading-zero',
 				severity: 'error',
-				text: 'Unexpected leading zero (number-leading-zero)'
+				text: 'Unexpected leading zero (number-leading-zero)',
 			}, {
 				line: 7,
 				column: 3,
 				rule: 'declaration-block-no-shorthand-property-overrides',
 				severity: 'error',
-				text: 'Unexpected shorthand "padding" after "padding-left" (declaration-block-no-shorthand-property-overrides)'
-			}
+				text: 'Unexpected shorthand "padding" after "padding-left" (declaration-block-no-shorthand-property-overrides)',
+			},
 		],
 		deprecations: [],
 		invalidOptionWarnings: [],
-		ignored: false
+		ignored: false,
 	}, {
 		source: '/Users/test/Sites/example.com/css/second.css',
 		errored: false,
@@ -29,12 +29,12 @@ const fixture = [
 				column: 11,
 				rule: 'number-no-trailing-zeros',
 				severity: 'warning',
-				text: 'Unexpected trailing zero(s) (number-no-trailing-zeros)'
-			}
+				text: 'Unexpected trailing zero(s) (number-no-trailing-zeros)',
+			},
 		],
 		deprecations: [],
 		invalidOptionWarnings: [],
-		ignored: false
+		ignored: false,
 	}, {
 		source: '/Users/test/Sites/example.com/css/third.css',
 		errored: true,
@@ -44,19 +44,19 @@ const fixture = [
 				column: 3,
 				rule: 'property-no-vendor-prefix',
 				severity: 'error',
-				text: 'Unexpected vendor-prefix "-webkit-border-radius" (property-no-vendor-prefix)'
+				text: 'Unexpected vendor-prefix "-webkit-border-radius" (property-no-vendor-prefix)',
 			}, {
 				line: 24,
 				column: 1,
 				rule: 'max-empty-lines',
 				severity: 'warning',
-				text: 'Expected no more than 1 empty line(s) (max-empty-lines)'
-			}
+				text: 'Expected no more than 1 empty line(s) (max-empty-lines)',
+			},
 		],
 		deprecations: [],
 		invalidOptionWarnings: [],
-		ignored: false
-	}
+		ignored: false,
+	},
 ];
 
 export default fixture;

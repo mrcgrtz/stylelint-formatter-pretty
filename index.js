@@ -26,7 +26,7 @@ function formatter(results) {
 			.sort((a, b) => a.text === b.text)
 			.filter((item, idx, array) => array.findIndex(d => d.text === item.text) === idx)
 			.map(item => ({
-				text: item.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2))
+				text: item.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2)),
 			}));
 
 		results
@@ -62,7 +62,7 @@ function formatter(results) {
 					type: 'header',
 					filePath,
 					relativeFilePath: path.relative('.', filePath),
-					firstLineCol: warnings[0].line + ':' + warnings[0].column
+					firstLineCol: warnings[0].line + ':' + warnings[0].column,
 				});
 
 				warnings
@@ -117,7 +117,7 @@ function formatter(results) {
 							columnWidth,
 							message,
 							messageWidth,
-							ruleId: x.rule || ''
+							ruleId: x.rule || '',
 						});
 					});
 			});
@@ -150,7 +150,7 @@ function formatter(results) {
 					x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
 					' '.repeat(maxLineWidth - x.lineWidth) + chalk.dim(x.line + chalk.gray(':') + x.column),
 					' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
-					' '.repeat(maxMessageWidth - x.messageWidth) + chalk.gray.dim(x.ruleId)
+					' '.repeat(maxMessageWidth - x.messageWidth) + chalk.gray.dim(x.ruleId),
 				];
 
 				if (!showLineNumbers) {
