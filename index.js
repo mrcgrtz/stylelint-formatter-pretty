@@ -1,4 +1,5 @@
 import path from 'node:path';
+import process from 'node:process';
 import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import plur from 'plur';
