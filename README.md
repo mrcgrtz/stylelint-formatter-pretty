@@ -6,7 +6,6 @@
 ![Update Status for Dev Dependencies](https://img.shields.io/david/dev/dreamseer/stylelint-formatter-pretty.svg)
 [![Tests](https://github.com/Dreamseer/stylelint-formatter-pretty/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Dreamseer/stylelint-formatter-pretty/actions/workflows/run-tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Dreamseer/stylelint-formatter-pretty/badge.svg?branch=main)](https://coveralls.io/github/Dreamseer/stylelint-formatter-pretty?branch=main)
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/dreamseer/stylelint-formatter-pretty)
 [![Install size](https://packagephobia.now.sh/badge?p=stylelint-formatter-pretty)](https://packagephobia.now.sh/result?p=stylelint-formatter-pretty)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![MIT license](https://img.shields.io/github/license/dreamseer/stylelint-formatter-pretty.svg)](https://github.com/Dreamseer/stylelint-formatter-pretty/blob/main/LICENSE.md)
