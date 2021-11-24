@@ -1,6 +1,6 @@
-import CommonJSFormatter from './index'
+import commonJSFormatter from './index'
 
 /**
  * @type {import('stylelint').Formatter}
  */
-export default CommonJSFormatter;
+export default commonJSFormatter;
