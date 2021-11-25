@@ -1,4 +1,5 @@
 const path = require('path');
+const process = require("process");
 const chalk = require('chalk');
 const logSymbols = require('log-symbols');
 const plur = require('plur');
