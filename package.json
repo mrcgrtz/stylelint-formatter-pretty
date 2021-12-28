@@ -54,7 +54,7 @@
     "ansi-escapes": "4.x",
     "chalk": "4.x",
     "log-symbols": "4.x",
-    "plur": "4.x",
+    "plur": "5.x",
     "string-width": "4.x"
   },
   "devDependencies": {
