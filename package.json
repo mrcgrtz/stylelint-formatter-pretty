@@ -7,10 +7,16 @@
     "type": "git",
     "url": "https://github.com/Dreamseer/stylelint-formatter-pretty.git"
   },
-  "funding": {
-    "type": "kofi",
-    "url": "https://ko-fi.com/mrcgrtz"
-  },
+  "funding": [
+    {
+      "type": "kofi",
+      "url": "https://ko-fi.com/mrcgrtz"
+    },
+    {
+      "type": "liberapay",
+      "url": "https://liberapay.com/mrcgrtz/"
+    }
+  ],
   "author": {
     "name": "Marc Görtz",
     "email": "git@marcgoertz.de",
@@ -24,7 +30,7 @@
   "module": "index.js",
   "exports": {
     ".": {
-      "require":  "./index.cjs",
+      "require": "./index.cjs",
       "default": "./index.js"
     }
   },
