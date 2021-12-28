@@ -1,6 +1,6 @@
 const path = require('path');
 const process = require('process');
-const chalk = require('chalk');
+const pico = require('picocolors');
 const logSymbols = require('log-symbols');
 const plur = require('plur');
 const stringWidth = require('string-width');
@@ -27,7 +27,7 @@ function formatter(results) {
 			.sort((a, b) => a.text === b.text)
 			.filter((item, idx, array) => array.findIndex(d => d.text === item.text) === idx)
 			.map(item => ({
-				text: item.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2)),
+				text: item.text.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => pico.bold(p1 || p2)),
 			}));
 
 		results
@@ -89,7 +89,7 @@ function formatter(results) {
 						message = message.replace(/\s\(.+\)$/g, '');
 
 						// Stylize inline code blocks
-						message = message.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => chalk.bold(p1 || p2));
+						message = message.replace(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => pico.bold(p1 || p2));
 
 						const line = String(x.line || 0);
 						const column = String(x.column || 0);
@@ -140,18 +140,18 @@ function formatter(results) {
 			if (x.type === 'header') {
 				// Add the line number so it's Cmd+click'able in some terminals
 				// Use dim & gray for terminals like iTerm that doesn't support `hidden`
-				const position = showLineNumbers ? chalk.hidden.dim.gray(`:${x.firstLineCol}`) : '';
+				const position = showLineNumbers ? pico.hidden(pico.dim(pico.gray(`:${x.firstLineCol}`))) : '';
 
-				return '  ' + chalk.underline(x.relativeFilePath + position);
+				return '  ' + pico.underline(x.relativeFilePath + position);
 			}
 
 			if (x.type === 'message') {
 				const line = [
 					'',
 					x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
-					' '.repeat(maxLineWidth - x.lineWidth) + chalk.dim(x.line + chalk.gray(':') + x.column),
+					' '.repeat(maxLineWidth - x.lineWidth) + pico.dim(x.line + pico.gray(':') + x.column),
 					' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
-					' '.repeat(maxMessageWidth - x.messageWidth) + chalk.gray.dim(x.ruleId),
+					' '.repeat(maxMessageWidth - x.messageWidth) + pico.gray(pico.dim(x.ruleId)),
 				];
 
 				if (!showLineNumbers) {
@@ -169,7 +169,7 @@ function formatter(results) {
 		}
 
 		if (deprecationsCount + invalidOptionWarningsCount > 0) {
-			output += `  ${chalk.underline('Stylelint Configuration')}\n`;
+			output += `  ${pico.underline('Stylelint Configuration')}\n`;
 		}
 
 		output += deprecations.map(x => '  ' + logSymbols.info + ' ' + x.text).join('\n');
@@ -189,19 +189,19 @@ function formatter(results) {
 		}
 
 		if (warningsCount > 0) {
-			output += '  ' + chalk.yellow(`${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
+			output += '  ' + pico.yellow(`${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
 		}
 
 		if (errorCount > 0) {
-			output += '  ' + chalk.red(`${errorCount} ${plur('error', errorCount)}`) + '\n';
+			output += '  ' + pico.red(`${errorCount} ${plur('error', errorCount)}`) + '\n';
 		}
 
 		if (deprecationsCount > 0) {
-			output += '  ' + chalk.blue(`${deprecationsCount} ${plur('deprecation', deprecationsCount)}`) + '\n';
+			output += '  ' + pico.blue(`${deprecationsCount} ${plur('deprecation', deprecationsCount)}`) + '\n';
 		}
 
 		if (invalidOptionWarningsCount > 0) {
-			output += '  ' + chalk.red(`${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
+			output += '  ' + pico.red(`${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
 		}
 
 		return (errorCount + warningsCount + deprecationsCount + invalidOptionWarningsCount) > 0 ? output : '';
