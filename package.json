@@ -33,6 +33,7 @@
     "coverage": "c8 report --reporter=lcov"
   },
   "files": [
+    "index.cjs",
     "index.js"
   ],
   "keywords": [
