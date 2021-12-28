@@ -51,11 +51,11 @@
     "validate"
   ],
   "dependencies": {
-    "ansi-escapes": "^4.3.2",
-    "chalk": "^4.1.2",
-    "log-symbols": "^4.1.0",
-    "plur": "^4.0.0",
-    "string-width": "^4.2.3"
+    "ansi-escapes": "4.x",
+    "chalk": "4.x",
+    "log-symbols": "4.x",
+    "plur": "4.x",
+    "string-width": "4.x"
   },
   "devDependencies": {
     "ava": "^3.15.0",
