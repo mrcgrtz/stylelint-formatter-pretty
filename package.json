@@ -3,10 +3,7 @@
   "version": "3.1.0",
   "description": "A pretty Stylelint formatter.",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Dreamseer/stylelint-formatter-pretty.git"
-  },
+  "repository": "github:mrcgrtz/stylelint-formatter-pretty",
   "funding": [
     {
       "type": "kofi",
