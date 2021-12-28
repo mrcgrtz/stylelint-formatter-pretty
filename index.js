@@ -1,6 +1,4 @@
-import commonJSFormatter from './index.cjs';
-
 /**
  * @type {import('stylelint').Formatter}
  */
-export default commonJSFormatter;
+export {default} from './index.cjs';

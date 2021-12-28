@@ -9,7 +9,7 @@
   },
   "funding": {
     "type": "kofi",
-    "url": "https://ko-fi.com/dreamseer"
+    "url": "https://ko-fi.com/mrcgrtz"
   },
   "author": {
     "name": "Marc Görtz",
@@ -55,7 +55,7 @@
     "ava": "^3.15.0",
     "c8": "^7.8.0",
     "strip-ansi": "^7.0.0",
-    "xo": "^0.46.4"
+    "xo": "^0.47.0"
   },
   "xo": {
     "rules": {
