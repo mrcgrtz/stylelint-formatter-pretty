@@ -60,8 +60,13 @@
   "devDependencies": {
     "ava": "^3.15.0",
     "c8": "^7.8.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.4",
     "strip-ansi": "^7.0.0",
     "xo": "^0.47.0"
+  },
+  "lint-staged": {
+    "*.?({c,m})js": "xo --fix"
   },
   "xo": {
     "rules": {
