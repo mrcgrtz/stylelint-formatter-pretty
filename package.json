@@ -51,7 +51,7 @@
     "validate"
   ],
   "dependencies": {
-    "ansi-escapes": "4.x",
+    "ansi-escapes": "5.x",
     "chalk": "4.x",
     "log-symbols": "4.x",
     "plur": "4.x",
