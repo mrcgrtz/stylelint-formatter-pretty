@@ -1,5 +1,5 @@
 const path = require('path');
-const process = require("process");
+const process = require('process');
 const chalk = require('chalk');
 const logSymbols = require('log-symbols');
 const plur = require('plur');
@@ -210,4 +210,4 @@ function formatter(results) {
 	return '';
 }
 
-module.exports=formatter;
+module.exports = formatter;
