@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/mrcgrtz/stylelint-formatter-pretty/badge.svg?branch=main)](https://coveralls.io/github/mrcgrtz/stylelint-formatter-pretty?branch=main)
 [![Install size](https://packagephobia.now.sh/badge?p=stylelint-formatter-pretty)](https://packagephobia.now.sh/result?p=stylelint-formatter-pretty)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
-[![License](https://img.shields.io/github/license/mrcgrtz/stylelint-formatter-pretty.svg)](https://github.com/mrcgrtz/stylelint-formatter-pretty/blob/main/LICENSE.md)
+[![MIT license](https://img.shields.io/github/license/mrcgrtz/stylelint-formatter-pretty.svg)](https://github.com/mrcgrtz/stylelint-formatter-pretty/blob/main/LICENSE.md)
 
 ![Screenshot](screenshot.png)
 
