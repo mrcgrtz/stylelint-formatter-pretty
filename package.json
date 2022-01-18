@@ -55,11 +55,11 @@
     "string-width": "~4.2.2"
   },
   "devDependencies": {
-    "ava": "^4.0.0",
-    "c8": "^7.8.0",
+    "ava": "^4.0.1",
+    "c8": "^7.11.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.1.4",
-    "strip-ansi": "^7.0.0",
+    "lint-staged": "^12.2.0",
+    "strip-ansi": "^7.0.1",
     "xo": "^0.47.0"
   },
   "lint-staged": {
