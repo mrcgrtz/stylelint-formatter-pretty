@@ -57,7 +57,7 @@
   "devDependencies": {
     "ava": "^4.0.1",
     "c8": "^7.11.0",
-    "husky": "^7.0.4",
+    "husky": "^8.0.1",
     "lint-staged": "^12.2.0",
     "strip-ansi": "^7.0.1",
     "xo": "^0.48.0"
