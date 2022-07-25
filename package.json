@@ -60,7 +60,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.0",
     "strip-ansi": "^7.0.1",
-    "xo": "^0.50.0"
+    "xo": "^0.51.0"
   },
   "lint-staged": {
     "*.?({c,m})js": "xo --fix"
