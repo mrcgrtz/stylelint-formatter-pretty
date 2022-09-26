@@ -48,7 +48,7 @@
     "validate"
   ],
   "dependencies": {
-    "ansi-escapes": "~4.3.2",
+    "ansi-escapes": "~6.0.0",
     "log-symbols": "~4.1.0",
     "picocolors": "^1.0.0",
     "plur": "~4.0.0",
