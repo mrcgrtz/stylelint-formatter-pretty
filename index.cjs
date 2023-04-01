@@ -6,11 +6,27 @@ const logSymbols = require('log-symbols');
 const plur = require('plur');
 const stringWidth = require('string-width');
 const ansiEscapes = require('ansi-escapes');
+const {supportsHyperlink} = require('supports-hyperlinks');
+
+/**
+ * @param {string|undefined} rule Stylelint rule
+ * @param {import('stylelint').LinterResult} linterResult Linter result
+ * @returns {string|undefined} URL
+ */
+function getRuleUrl(rule, linterResult) {
+	let ruleUrl;
+
+	try {
+		ruleUrl = linterResult.ruleMetadata[rule].url;
+	} catch {}
+
+	return ruleUrl;
+}
 
 /**
  * @type {import('stylelint').Formatter}
  */
-function formatter(results) {
+function formatter(results, returnValue) {
 	if (Array.isArray(results) && results.length > 0) {
 		const lines = [];
 		let errorCount = 0;
@@ -120,6 +136,7 @@ function formatter(results) {
 							message,
 							messageWidth,
 							ruleId: x.rule || '',
+							ruleUrl: getRuleUrl(x.rule, returnValue),
 						});
 					});
 			});
@@ -147,12 +164,13 @@ function formatter(results) {
 			}
 
 			if (x.type === 'message') {
+				const rule = (x.ruleUrl && supportsHyperlink(process.stdout) ? ansiEscapes.link(x.ruleId, x.ruleUrl) : x.ruleId);
 				const line = [
 					'',
 					x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
 					' '.repeat(maxLineWidth - x.lineWidth) + pico.dim(x.line + pico.gray(':') + x.column),
 					' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
-					' '.repeat(maxMessageWidth - x.messageWidth) + pico.gray(pico.dim(x.ruleId)),
+					' '.repeat(maxMessageWidth - x.messageWidth) + pico.gray(pico.dim(rule)),
 				];
 
 				if (!showLineNumbers) {
