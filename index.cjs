@@ -170,7 +170,7 @@ function formatter(results, returnValue) {
 					x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
 					' '.repeat(maxLineWidth - x.lineWidth) + pico.dim(x.line + pico.gray(':') + x.column),
 					' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
-					' '.repeat(maxMessageWidth - x.messageWidth) + pico.gray(pico.dim(rule)),
+					' '.repeat(maxMessageWidth - x.messageWidth) + pico.dim(rule),
 				];
 
 				if (!showLineNumbers) {
