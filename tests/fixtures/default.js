@@ -15,6 +15,12 @@ const fixture = [
 				rule: 'declaration-block-no-shorthand-property-overrides',
 				severity: 'error',
 				text: 'Unexpected shorthand "padding" after "padding-left" (declaration-block-no-shorthand-property-overrides)',
+			}, {
+				line: 8,
+				column: 13,
+				rule: undefined,
+				severity: 'error',
+				text: 'An undefined rule just for the fixture',
 			},
 		],
 		deprecations: [],

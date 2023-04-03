@@ -85,9 +85,11 @@ module.exports = {
 }
 ```
 
-## Tip
+## Tips
 
-In iTerm, <kbd>Cmd</kbd>+Click the filename header to open the file in your editor.
+In iTerm, <kbd>Command</kbd>+Click the filename header to open the file in your editor.
+
+In [terminals with support for hyperlinks](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda#supporting-apps), <kbd>Command</kbd>+Click the rule ID to open its documentation.
 
 ## Related
 
