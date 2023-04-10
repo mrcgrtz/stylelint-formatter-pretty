@@ -2,9 +2,7 @@ import process from 'node:process';
 import test from 'ava';
 import stripAnsi from 'strip-ansi';
 import ansiEscapes from 'ansi-escapes';
-
 import m from '../index.js';
-
 import defaultFixture from './fixtures/default.js';
 import deprecationsFixture from './fixtures/deprecations.js';
 import invalidOptionsFixture from './fixtures/invalid-options.js';
