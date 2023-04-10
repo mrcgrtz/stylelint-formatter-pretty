@@ -1,6 +1,5 @@
 const path = require('node:path');
 const process = require('node:process');
-
 const pico = require('picocolors');
 const logSymbols = require('log-symbols');
 const plur = require('plur');
