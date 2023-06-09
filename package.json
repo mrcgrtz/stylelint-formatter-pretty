@@ -60,7 +60,7 @@
     "c8": "^7.14.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.2.2",
-    "strip-ansi": "^7.0.1",
+    "strip-ansi": "^7.1.0",
     "xo": "^0.54.2"
   },
   "lint-staged": {
