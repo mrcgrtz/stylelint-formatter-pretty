@@ -52,7 +52,7 @@
     "log-symbols": "~4.1.0",
     "picocolors": "^1.0.0",
     "plur": "~4.0.0",
-    "string-width": "~4.2.2",
+    "string-width": "~7.0.0",
     "supports-hyperlinks": "^3.0.0"
   },
   "devDependencies": {
