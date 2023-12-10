@@ -1,6 +1,6 @@
 {
   "name": "stylelint-formatter-pretty",
-  "version": "3.2.1",
+  "version": "4.0.0",
   "description": "A pretty Stylelint formatter.",
   "license": "MIT",
   "repository": "github:mrcgrtz/stylelint-formatter-pretty",
