@@ -20,23 +20,15 @@
     "url": "https://marcgoertz.de/"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18.12.0"
   },
   "type": "module",
-  "main": "index.cjs",
-  "module": "index.js",
-  "exports": {
-    ".": {
-      "require": "./index.cjs",
-      "default": "./index.js"
-    }
-  },
+  "exports": "./index.js",
   "scripts": {
     "test": "xo && c8 ava",
     "coverage": "c8 report --reporter=lcov"
   },
   "files": [
-    "index.cjs",
     "index.js"
   ],
   "keywords": [
@@ -48,23 +40,26 @@
     "validate"
   ],
   "dependencies": {
-    "ansi-escapes": "~4.3.2",
-    "log-symbols": "~4.1.0",
+    "ansi-escapes": "^6.2.0",
+    "log-symbols": "^6.0.0",
     "picocolors": "^1.0.0",
-    "plur": "~4.0.0",
-    "string-width": "~4.2.2",
+    "plur": "^5.1.0",
+    "string-width": "^7.0.0",
     "supports-hyperlinks": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^5.3.0",
+    "ava": "^6.0.1",
     "c8": "^8.0.0",
     "husky": "^8.0.1",
-    "lint-staged": "^15.1.0",
+    "lint-staged": "^15.2.0",
     "strip-ansi": "^7.1.0",
     "xo": "^0.56.0"
   },
+  "peerDependencies": {
+    "stylelint": ">=16.0.0"
+  },
   "lint-staged": {
-    "*.?({c,m})js": "xo --fix"
+    "*.js": "xo --fix"
   },
   "xo": {
     "rules": {

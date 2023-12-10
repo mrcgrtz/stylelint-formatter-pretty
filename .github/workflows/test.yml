@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [lts/gallium, lts/hydrogen, current]
+        node-version: [lts/hydrogen, lts/iron, current]
 
     steps:
     - name: Checkout
