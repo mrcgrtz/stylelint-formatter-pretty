@@ -25,8 +25,9 @@
   "type": "module",
   "exports": "./index.js",
   "scripts": {
-    "test": "xo && c8 ava",
-    "coverage": "c8 report --reporter=lcov"
+    "coverage": "c8 report --reporter=lcov",
+    "prepare": "husky",
+    "test": "xo && c8 ava"
   },
   "files": [
     "index.js"
@@ -50,7 +51,7 @@
   "devDependencies": {
     "ava": "^6.0.1",
     "c8": "^9.1.0",
-    "husky": "^8.0.1",
+    "husky": "^9.0.10",
     "lint-staged": "^15.2.0",
     "strip-ansi": "^7.1.0",
     "xo": "^0.56.0"
