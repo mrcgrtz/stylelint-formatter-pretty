@@ -25,8 +25,9 @@
   "type": "module",
   "exports": "./index.js",
   "scripts": {
-    "test": "xo && c8 ava",
-    "coverage": "c8 report --reporter=lcov"
+    "coverage": "c8 report --reporter=lcov",
+    "prepare": "husky",
+    "test": "xo && c8 ava"
   },
   "files": [
     "index.js"
