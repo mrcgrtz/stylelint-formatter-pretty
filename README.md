@@ -29,7 +29,7 @@ yarn add stylelint-formatter-pretty --dev
 ### Stylelint CLI
 
 ```bash
-stylelint file.css --custom-formatter=node_modules/stylelint-formatter-pretty
+stylelint file.css --custom-formatter stylelint-formatter-pretty
 ```
 
 ### [grunt-stylelint](https://github.com/wikimedia/grunt-stylelint)
