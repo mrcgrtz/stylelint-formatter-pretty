@@ -41,7 +41,7 @@ function formatter(results, returnValue) {
 
 		const cleanUpAdditionals = items => items
 			.sort((a, b) => a.text === b.text)
-			.filter((item, idx, array) => array.findIndex(d => d.text === item.text) === idx)
+			.filter((item, index, array) => array.findIndex(d => d.text === item.text) === index)
 			.map(item => ({
 				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => pico.bold(p1 || p2)),
 			}));
@@ -123,7 +123,7 @@ function formatter(results, returnValue) {
 						maxLineWidth = Math.max(lineWidth, maxLineWidth);
 						maxColumnWidth = Math.max(columnWidth, maxColumnWidth);
 						maxMessageWidth = Math.max(messageWidth, maxMessageWidth);
-						showLineNumbers = showLineNumbers || x.line || x.column;
+						showLineNumbers ||= x.line || x.column;
 
 						lines.push({
 							type: 'message',
