@@ -22,15 +22,15 @@ test('output', () => {
 	disableHyperlinks();
 	const output = m(defaultFixture);
 	assert.match(stripAnsi(output), /first\.css:3:12\n/);
-	assert.match(stripAnsi(output), /✖ {3}3:12 {2}Unexpected leading zero {26}number-leading-zero/);
+	assert.match(stripAnsi(output), /3:12 {2}Unexpected leading zero {26}number-leading-zero/);
 });
 
 test('deprecations', () => {
 	disableHyperlinks();
 	const output = m(deprecationsFixture);
 	assert.match(stripAnsi(output), /Stylelint Configuration\n/);
-	assert.match(stripAnsi(output), /ℹ time-no-imperceptible has been deprecated and in 8.0 will be removed. Instead use time-min-milliseconds with 100 as its primary option./);
-	assert.match(stripAnsi(output), /ℹ block-no-single-line has been deprecated and in 8.0 will be removed. Instead use block-opening-brace-newline-after and block-closing-brace-newline-before with the always option./);
+	assert.match(stripAnsi(output), /time-no-imperceptible has been deprecated and in 8.0 will be removed. Instead use time-min-milliseconds with 100 as its primary option./);
+	assert.match(stripAnsi(output), /block-no-single-line has been deprecated and in 8.0 will be removed. Instead use block-opening-brace-newline-after and block-closing-brace-newline-before with the always option./);
 	assert.match(stripAnsi(output), /2 deprecations/);
 });
 
@@ -38,8 +38,8 @@ test('invalid options', () => {
 	disableHyperlinks();
 	const output = m(invalidOptionsFixture);
 	assert.match(stripAnsi(output), /Stylelint Configuration\n/);
-	assert.match(stripAnsi(output), /✖ Invalid option value snakeCase for rule value-keyword-case/);
-	assert.match(stripAnsi(output), /✖ Unexpected option value always for rule no-unknown-animations/);
+	assert.match(stripAnsi(output), /Invalid option value snakeCase for rule value-keyword-case/);
+	assert.match(stripAnsi(output), /Unexpected option value always for rule no-unknown-animations/);
 	assert.match(stripAnsi(output), /2 invalid options/);
 });
 
@@ -47,7 +47,7 @@ test('parse errors', () => {
 	disableHyperlinks();
 	const output = m(parseErrorFixture);
 	assert.match(stripAnsi(output), /first\.css:7:12\n/);
-	assert.match(stripAnsi(output), /✖ {2}7:12 {2}Unexpected token {2}parseError/);
+	assert.match(stripAnsi(output), /7:12 {2}Unexpected token {2}parseError/);
 	assert.match(stripAnsi(output), /1 error/);
 });
 
