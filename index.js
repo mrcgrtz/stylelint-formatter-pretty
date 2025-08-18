@@ -5,7 +5,7 @@ import logSymbols from 'log-symbols';
 import plur from 'plur';
 import stringWidth from 'string-width';
 import ansiEscapes from 'ansi-escapes';
-import {supportsHyperlink} from 'supports-hyperlinks';
+import {createSupportsHyperlinks} from 'supports-hyperlinks';
 
 /**
  * @param {string|undefined} rule Stylelint rule
@@ -163,7 +163,8 @@ function formatter(results, returnValue) {
 			}
 
 			if (x.type === 'message') {
-				const rule = (x.ruleUrl && supportsHyperlink(process.stdout) ? ansiEscapes.link(x.ruleId, x.ruleUrl) : x.ruleId);
+				const supportsHyperlinks = createSupportsHyperlinks(process.stdout);
+				const rule = (x.ruleUrl && supportsHyperlinks ? ansiEscapes.link(x.ruleId, x.ruleUrl) : x.ruleId);
 				const line = [
 					'',
 					x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
