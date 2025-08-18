@@ -30,7 +30,10 @@ test('deprecations', () => {
 	const output = m(deprecationsFixture);
 	assert.match(stripAnsi(output), /Stylelint Configuration\n/);
 	assert.match(stripAnsi(output), /time-no-imperceptible has been deprecated and in 8.0 will be removed. Instead use time-min-milliseconds with 100 as its primary option./);
-	assert.match(stripAnsi(output), /block-no-single-line has been deprecated and in 8.0 will be removed. Instead use block-opening-brace-newline-after and block-closing-brace-newline-before with the always option./);
+	assert.match(
+		stripAnsi(output),
+		/block-no-single-line has been deprecated and in 8.0 will be removed\. Instead use block-opening-brace-newline-after and block-closing-brace-newline-before with the always option\./,
+	);
 	assert.match(stripAnsi(output), /2 deprecations/);
 });
 
