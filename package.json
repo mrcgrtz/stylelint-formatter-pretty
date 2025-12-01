@@ -44,7 +44,7 @@
     "ansi-escapes": "^7.0.0",
     "log-symbols": "^7.0.0",
     "picocolors": "^1.0.0",
-    "plur": "^5.1.0",
+    "plur": "^6.0.0",
     "string-width": "^7.0.0",
     "supports-hyperlinks": "^4.1.0"
   },
