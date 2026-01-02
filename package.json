@@ -46,7 +46,7 @@
     "picocolors": "^1.0.0",
     "plur": "^6.0.0",
     "string-width": "^7.0.0",
-    "supports-hyperlinks": "^4.1.0"
+    "supports-hyperlinks": "^4.4.0"
   },
   "devDependencies": {
     "c8": "^10.1.2",
