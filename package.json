@@ -20,14 +20,14 @@
     "url": "https://marcgoertz.de/"
   },
   "engines": {
-    "node": ">=18.12.0"
+    "node": ">=20.11.0"
   },
   "type": "module",
   "exports": "./index.js",
   "scripts": {
-    "coverage": "c8 report --reporter=lcov",
+    "coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
     "prepare": "husky",
-    "test": "xo && c8 node --test"
+    "test": "xo && node --test --experimental-test-coverage"
   },
   "files": [
     "index.js"
@@ -49,7 +49,6 @@
     "supports-hyperlinks": "^4.4.0"
   },
   "devDependencies": {
-    "c8": "^10.1.2",
     "husky": "^9.0.10",
     "lint-staged": "^16.1.0",
     "strip-ansi": "^7.1.0",
