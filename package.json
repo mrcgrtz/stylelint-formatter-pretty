@@ -58,6 +58,9 @@
   "peerDependencies": {
     "stylelint": ">=16.0.0"
   },
+  "overrides": {
+    "yargs": "^18.0.0"
+  },
   "lint-staged": {
     "*.js": "xo --fix"
   },
