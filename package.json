@@ -20,7 +20,7 @@
     "url": "https://marcgoertz.de/"
   },
   "engines": {
-    "node": ">=18.12.0"
+    "node": ">=20.19.0"
   },
   "type": "module",
   "exports": "./index.js",
@@ -56,7 +56,7 @@
     "xo": "^1.0.5"
   },
   "peerDependencies": {
-    "stylelint": ">=16.0.0"
+    "stylelint": ">=17.0.0"
   },
   "overrides": {
     "yargs": "^18.0.0"
