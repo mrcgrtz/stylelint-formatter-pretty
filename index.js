@@ -42,14 +42,14 @@ function formatter(results, returnValue) {
 		let invalidOptionWarnings = [];
 
 		const cleanUpAdditionals = items => items
-			.sort((a, b) => a.text === b.text)
+			.toSorted((a, b) => a.text === b.text)
 			.filter((item, index, array) => array.findIndex(d => d.text === item.text) === index)
 			.map(item => ({
 				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2)),
 			}));
 
 		results
-			.sort((a, b) => a.warnings.length - b.warnings.length)
+			.toSorted((a, b) => a.warnings.length - b.warnings.length)
 			.forEach(result => {
 				const {warnings} = result;
 
@@ -85,7 +85,7 @@ function formatter(results, returnValue) {
 				});
 
 				warnings
-					.sort((a, b) => {
+					.toSorted((a, b) => {
 						if (a.severity === b.severity) {
 							if (a.line === b.line) {
 								return a.column < b.column ? -1 : 1;
