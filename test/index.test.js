@@ -21,37 +21,37 @@ const disableHyperlinks = () => {
 test('output', () => {
 	disableHyperlinks();
 	const output = m(defaultFixture);
-	assert.match(stripAnsi(output), /first\.css:3:12\n/);
-	assert.match(stripAnsi(output), /3:12 {2}Unexpected leading zero {26}number-leading-zero/);
+	assert.match(stripAnsi(output), /first\.css:3:12\n/v);
+	assert.match(stripAnsi(output), /3:12 {2}Unexpected leading zero {26}number-leading-zero/v);
 });
 
 test('deprecations', () => {
 	disableHyperlinks();
 	const output = m(deprecationsFixture);
-	assert.match(stripAnsi(output), /Stylelint Configuration\n/);
-	assert.match(stripAnsi(output), /time-no-imperceptible has been deprecated and in 8.0 will be removed. Instead use time-min-milliseconds with 100 as its primary option./);
+	assert.match(stripAnsi(output), /Stylelint Configuration\n/v);
+	assert.match(stripAnsi(output), /time-no-imperceptible has been deprecated and in 8.0 will be removed. Instead use time-min-milliseconds with 100 as its primary option./v);
 	assert.match(
 		stripAnsi(output),
-		/block-no-single-line has been deprecated and in 8.0 will be removed\. Instead use block-opening-brace-newline-after and block-closing-brace-newline-before with the always option\./,
+		/block-no-single-line has been deprecated and in 8.0 will be removed\. Instead use block-opening-brace-newline-after and block-closing-brace-newline-before with the always option\./v,
 	);
-	assert.match(stripAnsi(output), /2 deprecations/);
+	assert.match(stripAnsi(output), /2 deprecations/v);
 });
 
 test('invalid options', () => {
 	disableHyperlinks();
 	const output = m(invalidOptionsFixture);
-	assert.match(stripAnsi(output), /Stylelint Configuration\n/);
-	assert.match(stripAnsi(output), /Invalid option value snakeCase for rule value-keyword-case/);
-	assert.match(stripAnsi(output), /Unexpected option value always for rule no-unknown-animations/);
-	assert.match(stripAnsi(output), /2 invalid options/);
+	assert.match(stripAnsi(output), /Stylelint Configuration\n/v);
+	assert.match(stripAnsi(output), /Invalid option value snakeCase for rule value-keyword-case/v);
+	assert.match(stripAnsi(output), /Unexpected option value always for rule no-unknown-animations/v);
+	assert.match(stripAnsi(output), /2 invalid options/v);
 });
 
 test('parse errors', () => {
 	disableHyperlinks();
 	const output = m(parseErrorFixture);
-	assert.match(stripAnsi(output), /first\.css:7:12\n/);
-	assert.match(stripAnsi(output), /7:12 {2}Unexpected token {2}parseError/);
-	assert.match(stripAnsi(output), /1 error/);
+	assert.match(stripAnsi(output), /first\.css:7:12\n/v);
+	assert.match(stripAnsi(output), /7:12 {2}Unexpected token {2}parseError/v);
+	assert.match(stripAnsi(output), /1 error/v);
 });
 
 test('empty results', () => {

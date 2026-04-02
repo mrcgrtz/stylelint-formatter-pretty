@@ -17,7 +17,9 @@ function getRuleUrl(rule, linterResult) {
 
 	try {
 		ruleUrl = linterResult.ruleMetadata[rule].url;
-	} catch {}
+	} catch {
+		// Do nothing.
+	}
 
 	return ruleUrl;
 }
@@ -40,14 +42,14 @@ function formatter(results, returnValue) {
 		let invalidOptionWarnings = [];
 
 		const cleanUpAdditionals = items => items
-			.sort((a, b) => a.text === b.text)
+			.toSorted((a, b) => a.text === b.text)
 			.filter((item, index, array) => array.findIndex(d => d.text === item.text) === index)
 			.map(item => ({
-				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => pico.bold(p1 || p2)),
+				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2)),
 			}));
 
 		results
-			.sort((a, b) => a.warnings.length - b.warnings.length)
+			.toSorted((a, b) => a.warnings.length - b.warnings.length)
 			.forEach(result => {
 				const {warnings} = result;
 
@@ -83,7 +85,7 @@ function formatter(results, returnValue) {
 				});
 
 				warnings
-					.sort((a, b) => {
+					.toSorted((a, b) => {
 						if (a.severity === b.severity) {
 							if (a.line === b.line) {
 								return a.column < b.column ? -1 : 1;
@@ -102,10 +104,10 @@ function formatter(results, returnValue) {
 						let message = x.text;
 
 						// Remove rule ID from message
-						message = message.replaceAll(/\s\(.+\)$/g, '');
+						message = message.replaceAll(/\s\(.+\)$/gv, '');
 
 						// Stylize inline code blocks
-						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => pico.bold(p1 || p2));
+						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2));
 
 						const line = String(x.line || 0);
 						const column = String(x.column || 0);
