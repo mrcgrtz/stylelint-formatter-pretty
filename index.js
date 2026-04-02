@@ -17,7 +17,9 @@ function getRuleUrl(rule, linterResult) {
 
 	try {
 		ruleUrl = linterResult.ruleMetadata[rule].url;
-	} catch {}
+	} catch {
+		// Do nothing.
+	}
 
 	return ruleUrl;
 }
