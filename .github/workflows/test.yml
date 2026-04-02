@@ -40,4 +40,5 @@ jobs:
       - name: Close parallel build
         uses: coverallsapp/github-action@v2
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
