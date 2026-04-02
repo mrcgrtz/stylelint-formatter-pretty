@@ -43,7 +43,7 @@ function formatter(results, returnValue) {
 			.sort((a, b) => a.text === b.text)
 			.filter((item, index, array) => array.findIndex(d => d.text === item.text) === index)
 			.map(item => ({
-				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => pico.bold(p1 || p2)),
+				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2)),
 			}));
 
 		results
@@ -102,10 +102,10 @@ function formatter(results, returnValue) {
 						let message = x.text;
 
 						// Remove rule ID from message
-						message = message.replaceAll(/\s\(.+\)$/g, '');
+						message = message.replaceAll(/\s\(.+\)$/gv, '');
 
 						// Stylize inline code blocks
-						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/g, (m, p1, p2) => pico.bold(p1 || p2));
+						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2));
 
 						const line = String(x.line || 0);
 						const column = String(x.column || 0);
