@@ -53,7 +53,7 @@
     "husky": "^9.0.10",
     "lint-staged": "^16.1.0",
     "strip-ansi": "^7.1.0",
-    "xo": "^1.0.5"
+    "xo": "^2.0.2"
   },
   "peerDependencies": {
     "stylelint": ">=17.0.0"
