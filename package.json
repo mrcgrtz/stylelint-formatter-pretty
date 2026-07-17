@@ -66,6 +66,9 @@
   },
   "xo": {
     "rules": {
+      "jsdoc/check-indentation": "off",
+      "jsdoc/imports-as-dependencies": "off",
+      "jsdoc/require-asterisk-prefix": "off",
       "unicorn/no-array-for-each": "off"
     }
   }
