@@ -56,19 +56,19 @@ test('parse errors', () => {
 test('empty results', () => {
 	disableHyperlinks();
 	const output = m([]);
-	assert.equal(stripAnsi(output), '');
+	assert.strictEqual(stripAnsi(output), '');
 });
 
 test('invalid Stylelint output', () => {
 	disableHyperlinks();
 	const output = m('foobar');
-	assert.equal(stripAnsi(output), '');
+	assert.strictEqual(stripAnsi(output), '');
 });
 
 test('linked rules', () => {
 	enableHyperlinks();
 	const output = m(defaultFixture, linterResultFixture);
-	assert.ok(output.includes('\u001B]8;;https://stylelint.io/user-guide/rules/number-leading-zero\u0007number-leading-zero\u001B]8;;\u0007'));
+	assert.ok(output.includes('\u{1B}]8;;https://stylelint.io/user-guide/rules/number-leading-zero\u{7}number-leading-zero\u{1B}]8;;\u{7}'));
 });
 
 test('no errors when no URL is found to link a rule', () => {
@@ -80,13 +80,13 @@ test('no errors when no URL is found to link a rule', () => {
 test('no colors when Stylelint passes `color: false`', () => {
 	disableHyperlinks();
 	const output = m(defaultFixture, {...linterResultFixture, color: false});
-	assert.equal(output, stripAnsi(output));
+	assert.strictEqual(output, stripAnsi(output));
 });
 
 test('colors when Stylelint passes `color: true`', () => {
 	disableHyperlinks();
 	const output = m(defaultFixture, {...linterResultFixture, color: true});
-	assert.notEqual(output, stripAnsi(output));
+	assert.notStrictEqual(output, stripAnsi(output));
 });
 
 test('works as custom formatter with Stylelint', async () => {
@@ -99,7 +99,7 @@ test('works as custom formatter with Stylelint', async () => {
 		formatter: m,
 		color: false,
 	});
-	assert.equal(report, stripAnsi(report));
+	assert.strictEqual(report, stripAnsi(report));
 	assert.match(report, /first\.css:1:12\n/v);
 	assert.match(report, /1:12 {2}Expected #FFF to be #FFFFFF {2}color-hex-length/v);
 	assert.match(report, /1 error/v);

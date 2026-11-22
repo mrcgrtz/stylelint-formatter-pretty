@@ -6,9 +6,10 @@ import stringWidth from 'string-width';
 import {createSupportsHyperlinks} from 'supports-hyperlinks';
 
 /**
- * @param {string|undefined} rule Stylelint rule
- * @param {import('stylelint').LinterResult} linterResult Linter result
- * @returns {string|undefined} URL
+ Look up the documentation URL of a rule in the Stylelint rule metadata.
+ @param {string|undefined} rule ID of the rule, e.g. `color-hex-length`
+ @param {import('stylelint').LinterResult} linterResult Result object holding the rule metadata
+ @returns {string|undefined} Documentation URL, if the rule provides one
  */
 function getRuleUrl(rule, linterResult) {
 	let ruleUrl;
@@ -23,23 +24,25 @@ function getRuleUrl(rule, linterResult) {
 }
 
 /**
- * @param {string} word Singular word
- * @param {number} count Count
- * @returns {string} Word, pluralized if needed
+ Pluralize a word based on a count.
+ @param {string} word Singular word
+ @param {number} count Number of items the word refers to
+ @returns {string} Word, pluralized if needed
  */
 const plur = (word, count) => (count === 1 ? word : `${word}s`);
 
 /**
- * @param {string} text Link text
- * @param {string} url Link URL
- * @returns {string} Terminal hyperlink
+ Create an OSC 8 terminal hyperlink.
+ @param {string} text Visible text of the link
+ @param {string} url Target the link points to
+ @returns {string} Terminal hyperlink
  */
-const link = (text, url) => `\u001B]8;;${url}\u0007${text}\u001B]8;;\u0007`;
+const link = (text, url) => `\u{1B}]8;;${url}\u{7}${text}\u{1B}]8;;\u{7}`;
 
 /**
- * Respect the `color` option passed by Stylelint, otherwise detect color support.
- * @param {import('stylelint').LinterResult|undefined} linterResult Linter result
- * @returns {{style: (format: Parameters<typeof styleText>[0], text: string) => string, symbols: typeof logSymbols}} Style function and symbols
+ Respect the `color` option passed by Stylelint, otherwise detect color support.
+ @param {import('stylelint').LinterResult|undefined} linterResult Result object holding the `color` option
+ @returns {{style: (format: Parameters<typeof styleText>[0], text: string) => string, symbols: typeof logSymbols}} Style function and symbols
  */
 function getColors(linterResult) {
 	const color = linterResult?.color;
@@ -59,9 +62,10 @@ function getColors(linterResult) {
 }
 
 /**
- * @type {import('stylelint').Formatter}
+ Format Stylelint results for the terminal.
+ @type {import('stylelint').Formatter}
  */
-function formatter(results, returnValue) {
+export default function formatter(results, returnValue) {
 	if (Array.isArray(results) && results.length > 0) {
 		const {style, symbols} = getColors(returnValue);
 		const lines = [];
@@ -72,15 +76,15 @@ function formatter(results, returnValue) {
 		let maxLineWidth = 0;
 		let maxColumnWidth = 0;
 		let maxMessageWidth = 0;
-		let showLineNumbers = false;
+		let isShowLineNumbers = false;
 		let deprecations = [];
 		let invalidOptionWarnings = [];
 
 		const cleanUpAdditionals = items => items
-			.toSorted((a, b) => a.text === b.text)
+			.toSorted((a, b) => a.text.localeCompare(b.text))
 			.filter((item, index, array) => array.findIndex(d => d.text === item.text) === index)
 			.map(item => ({
-				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => style('bold', p1 || p2)),
+				text: item.text.replaceAll(/\B"(?<double>.*?)"\B|\B'(?<single>.*?)'\B/gv, (m, double, single) => style('bold', double || single)),
 			}));
 
 		results
@@ -129,11 +133,7 @@ function formatter(results, returnValue) {
 							return a.line < b.line ? -1 : 1;
 						}
 
-						if (a.severity === 2 && b.severity !== 2) {
-							return 1;
-						}
-
-						return -1;
+						return a.severity === 2 && b.severity !== 2 ? 1 : -1;
 					})
 					.forEach(x => {
 						let message = x.text;
@@ -142,7 +142,7 @@ function formatter(results, returnValue) {
 						message = message.replaceAll(/\s\(.+\)$/gv, '');
 
 						// Stylize inline code blocks
-						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => style('bold', p1 || p2));
+						message = message.replaceAll(/\B"(?<double>.*?)"\B|\B'(?<single>.*?)'\B/gv, (m, double, single) => style('bold', double || single));
 
 						const line = String(x.line || 0);
 						const column = String(x.column || 0);
@@ -160,7 +160,7 @@ function formatter(results, returnValue) {
 						maxLineWidth = Math.max(lineWidth, maxLineWidth);
 						maxColumnWidth = Math.max(columnWidth, maxColumnWidth);
 						maxMessageWidth = Math.max(messageWidth, maxMessageWidth);
-						showLineNumbers ||= x.line || x.column;
+						isShowLineNumbers ||= x.line || x.column;
 
 						lines.push({
 							type: 'message',
@@ -187,21 +187,21 @@ function formatter(results, returnValue) {
 
 		if (process.stdout.isTTY && !process.env.CI) {
 			// Make relative paths Cmd+click'able in iTerm
-			output += `\u001B]50;CurrentDir=${process.cwd()}\u0007`;
+			output += `\u{1B}]50;CurrentDir=${process.cwd()}\u{7}`;
 		}
 
 		output += lines.map(x => {
 			if (x.type === 'header') {
 				// Add the line number so it's Cmd+click'able in some terminals
 				// Use dim & gray for terminals like iTerm that doesn't support `hidden`
-				const position = showLineNumbers ? style(['hidden', 'dim', 'gray'], `:${x.firstLineCol}`) : '';
+				const position = isShowLineNumbers ? style(['hidden', 'dim', 'gray'], `:${x.firstLineCol}`) : '';
 
 				return '  ' + style('underline', x.relativeFilePath + position);
 			}
 
 			if (x.type === 'message') {
 				const supportsHyperlinks = createSupportsHyperlinks(process.stdout);
-				const rule = (x.ruleUrl && supportsHyperlinks ? link(x.ruleId, x.ruleUrl) : x.ruleId);
+				const rule = (supportsHyperlinks && x.ruleUrl ? link(x.ruleId, x.ruleUrl) : x.ruleId);
 				const line = [
 					'',
 					x.severity === 'warning' ? symbols.warning : symbols.error,
@@ -210,7 +210,7 @@ function formatter(results, returnValue) {
 					' '.repeat(maxMessageWidth - x.messageWidth) + style('dim', rule),
 				];
 
-				if (!showLineNumbers) {
+				if (!isShowLineNumbers) {
 					line.splice(2, 1);
 				}
 
@@ -265,5 +265,3 @@ function formatter(results, returnValue) {
 
 	return '';
 }
-
-export default formatter;

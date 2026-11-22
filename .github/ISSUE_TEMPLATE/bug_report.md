@@ -17,9 +17,9 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Versions:**
- - OS: [e.g. macOS 10.13.6]
- - Node: [e.g. v8.11.3]
- - Package: [e.g. v1.0.0]
+ - OS: \[e.g. macOS 10.13.6\]
+ - Node: \[e.g. v8.11.3\]
+ - Package: \[e.g. v1.0.0\]
 
 **Additional context**
 Add any other context about the problem here.
