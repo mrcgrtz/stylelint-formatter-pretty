@@ -14,16 +14,13 @@
       "url": "https://liberapay.com/mrcgrtz/"
     }
   ],
-  "author": {
-    "name": "Marc Görtz",
-    "email": "git@marcgoertz.de",
-    "url": "https://marcgoertz.de/"
-  },
+  "author": "Marc Görtz <git@marcgoertz.de> (https://marcgoertz.de/)",
+  "type": "module",
+  "exports": "./index.js",
+  "sideEffects": false,
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
-  "type": "module",
-  "exports": "./index.js",
   "scripts": {
     "coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
     "prepare": "husky",
@@ -59,7 +56,7 @@
   },
   "xo": {
     "rules": {
-      "unicorn/no-array-for-each": "off"
+      "unicorn/no-for-each": "off"
     }
   }
 }
