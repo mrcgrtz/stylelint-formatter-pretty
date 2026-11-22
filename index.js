@@ -1,7 +1,6 @@
 import path from 'node:path';
 import process from 'node:process';
-import {stripVTControlCharacters} from 'node:util';
-import picocolors from 'picocolors';
+import {stripVTControlCharacters, styleText} from 'node:util';
 import logSymbols from 'log-symbols';
 import plur from 'plur';
 import stringWidth from 'string-width';
@@ -28,20 +27,22 @@ function getRuleUrl(rule, linterResult) {
 /**
  * Respect the `color` option passed by Stylelint, otherwise detect color support.
  * @param {import('stylelint').LinterResult|undefined} linterResult Linter result
- * @returns {{pico: import('picocolors').Colors, symbols: typeof logSymbols}} Colors and symbols
+ * @returns {{style: (format: Parameters<typeof styleText>[0], text: string) => string, symbols: typeof logSymbols}} Style function and symbols
  */
 function getColors(linterResult) {
 	const color = linterResult?.color;
 
-	if (color === undefined) {
-		return {pico: picocolors, symbols: logSymbols};
+	if (color === false) {
+		return {
+			style: (_format, text) => text,
+			symbols: Object.fromEntries(Object.entries(logSymbols).map(([key, value]) => [key, stripVTControlCharacters(value)])),
+		};
 	}
 
 	return {
-		pico: picocolors.createColors(color),
-		symbols: color
-			? logSymbols
-			: Object.fromEntries(Object.entries(logSymbols).map(([key, value]) => [key, stripVTControlCharacters(value)])),
+		// Force color when it's on, otherwise let Node.js detect whether the terminal supports it
+		style: (format, text) => styleText(format, text, {validateStream: color !== true}),
+		symbols: logSymbols,
 	};
 }
 
@@ -50,7 +51,7 @@ function getColors(linterResult) {
  */
 function formatter(results, returnValue) {
 	if (Array.isArray(results) && results.length > 0) {
-		const {pico, symbols} = getColors(returnValue);
+		const {style, symbols} = getColors(returnValue);
 		const lines = [];
 		let errorCount = 0;
 		let warningsCount = 0;
@@ -67,7 +68,7 @@ function formatter(results, returnValue) {
 			.toSorted((a, b) => a.text === b.text)
 			.filter((item, index, array) => array.findIndex(d => d.text === item.text) === index)
 			.map(item => ({
-				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2)),
+				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => style('bold', p1 || p2)),
 			}));
 
 		results
@@ -129,7 +130,7 @@ function formatter(results, returnValue) {
 						message = message.replaceAll(/\s\(.+\)$/gv, '');
 
 						// Stylize inline code blocks
-						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2));
+						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => style('bold', p1 || p2));
 
 						const line = String(x.line || 0);
 						const column = String(x.column || 0);
@@ -181,9 +182,9 @@ function formatter(results, returnValue) {
 			if (x.type === 'header') {
 				// Add the line number so it's Cmd+click'able in some terminals
 				// Use dim & gray for terminals like iTerm that doesn't support `hidden`
-				const position = showLineNumbers ? pico.hidden(pico.dim(pico.gray(`:${x.firstLineCol}`))) : '';
+				const position = showLineNumbers ? style(['hidden', 'dim', 'gray'], `:${x.firstLineCol}`) : '';
 
-				return '  ' + pico.underline(x.relativeFilePath + position);
+				return '  ' + style('underline', x.relativeFilePath + position);
 			}
 
 			if (x.type === 'message') {
@@ -192,9 +193,9 @@ function formatter(results, returnValue) {
 				const line = [
 					'',
 					x.severity === 'warning' ? symbols.warning : symbols.error,
-					' '.repeat(maxLineWidth - x.lineWidth) + pico.dim(x.line + pico.gray(':') + x.column),
+					' '.repeat(maxLineWidth - x.lineWidth) + style('dim', x.line + style('gray', ':') + x.column),
 					' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
-					' '.repeat(maxMessageWidth - x.messageWidth) + pico.dim(rule),
+					' '.repeat(maxMessageWidth - x.messageWidth) + style('dim', rule),
 				];
 
 				if (!showLineNumbers) {
@@ -212,7 +213,7 @@ function formatter(results, returnValue) {
 		}
 
 		if (deprecationsCount + invalidOptionWarningsCount > 0) {
-			output += `  ${pico.underline('Stylelint Configuration')}\n`;
+			output += `  ${style('underline', 'Stylelint Configuration')}\n`;
 		}
 
 		output += deprecations.map(x => '  ' + symbols.info + ' ' + x.text).join('\n');
@@ -232,19 +233,19 @@ function formatter(results, returnValue) {
 		}
 
 		if (warningsCount > 0) {
-			output += '  ' + pico.yellow(`${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
+			output += '  ' + style('yellow', `${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
 		}
 
 		if (errorCount > 0) {
-			output += '  ' + pico.red(`${errorCount} ${plur('error', errorCount)}`) + '\n';
+			output += '  ' + style('red', `${errorCount} ${plur('error', errorCount)}`) + '\n';
 		}
 
 		if (deprecationsCount > 0) {
-			output += '  ' + pico.blue(`${deprecationsCount} ${plur('deprecation', deprecationsCount)}`) + '\n';
+			output += '  ' + style('blue', `${deprecationsCount} ${plur('deprecation', deprecationsCount)}`) + '\n';
 		}
 
 		if (invalidOptionWarningsCount > 0) {
-			output += '  ' + pico.red(`${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
+			output += '  ' + style('red', `${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
 		}
 
 		return (errorCount + warningsCount + deprecationsCount + invalidOptionWarningsCount) > 0 ? output : '';
