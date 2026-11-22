@@ -1,8 +1,7 @@
 import process from 'node:process';
 import test from 'node:test';
 import assert from 'node:assert';
-import stripAnsi from 'strip-ansi';
-import ansiEscapes from 'ansi-escapes';
+import {stripVTControlCharacters as stripAnsi} from 'node:util';
 import m from '../index.js';
 import defaultFixture from './fixtures/default.js';
 import deprecationsFixture from './fixtures/deprecations.js';
@@ -69,11 +68,39 @@ test('invalid Stylelint output', () => {
 test('linked rules', () => {
 	enableHyperlinks();
 	const output = m(defaultFixture, linterResultFixture);
-	assert.ok(output.includes(ansiEscapes.link('number-leading-zero', 'https://stylelint.io/user-guide/rules/number-leading-zero')));
+	assert.ok(output.includes('\u001B]8;;https://stylelint.io/user-guide/rules/number-leading-zero\u0007number-leading-zero\u001B]8;;\u0007'));
 });
 
 test('no errors when no URL is found to link a rule', () => {
 	enableHyperlinks();
 	const output = m(defaultFixture, linterResultFixture);
 	assert.ok(output.includes('number-no-trailing-zeros'));
+});
+
+test('no colors when Stylelint passes `color: false`', () => {
+	disableHyperlinks();
+	const output = m(defaultFixture, {...linterResultFixture, color: false});
+	assert.equal(output, stripAnsi(output));
+});
+
+test('colors when Stylelint passes `color: true`', () => {
+	disableHyperlinks();
+	const output = m(defaultFixture, {...linterResultFixture, color: true});
+	assert.notEqual(output, stripAnsi(output));
+});
+
+test('works as custom formatter with Stylelint', async () => {
+	disableHyperlinks();
+	const {default: stylelint} = await import('stylelint');
+	const {report} = await stylelint.lint({
+		code: 'a { color: #FFF; }',
+		codeFilename: 'first.css',
+		config: {rules: {'color-hex-length': 'long'}},
+		formatter: m,
+		color: false,
+	});
+	assert.equal(report, stripAnsi(report));
+	assert.match(report, /first\.css:1:12\n/v);
+	assert.match(report, /1:12 {2}Expected #FFF to be #FFFFFF {2}color-hex-length/v);
+	assert.match(report, /1 error/v);
 });

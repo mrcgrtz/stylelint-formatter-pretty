@@ -1,10 +1,8 @@
 import path from 'node:path';
 import process from 'node:process';
-import pico from 'picocolors';
+import {stripVTControlCharacters, styleText} from 'node:util';
 import logSymbols from 'log-symbols';
-import plur from 'plur';
 import stringWidth from 'string-width';
-import ansiEscapes from 'ansi-escapes';
 import {createSupportsHyperlinks} from 'supports-hyperlinks';
 
 /**
@@ -25,10 +23,47 @@ function getRuleUrl(rule, linterResult) {
 }
 
 /**
+ * @param {string} word Singular word
+ * @param {number} count Count
+ * @returns {string} Word, pluralized if needed
+ */
+const plur = (word, count) => (count === 1 ? word : `${word}s`);
+
+/**
+ * @param {string} text Link text
+ * @param {string} url Link URL
+ * @returns {string} Terminal hyperlink
+ */
+const link = (text, url) => `\u001B]8;;${url}\u0007${text}\u001B]8;;\u0007`;
+
+/**
+ * Respect the `color` option passed by Stylelint, otherwise detect color support.
+ * @param {import('stylelint').LinterResult|undefined} linterResult Linter result
+ * @returns {{style: (format: Parameters<typeof styleText>[0], text: string) => string, symbols: typeof logSymbols}} Style function and symbols
+ */
+function getColors(linterResult) {
+	const color = linterResult?.color;
+
+	if (color === false) {
+		return {
+			style: (_format, text) => text,
+			symbols: Object.fromEntries(Object.entries(logSymbols).map(([key, value]) => [key, stripVTControlCharacters(value)])),
+		};
+	}
+
+	return {
+		// Force color when it's on, otherwise let Node.js detect whether the terminal supports it
+		style: (format, text) => styleText(format, text, {validateStream: color !== true}),
+		symbols: logSymbols,
+	};
+}
+
+/**
  * @type {import('stylelint').Formatter}
  */
 function formatter(results, returnValue) {
 	if (Array.isArray(results) && results.length > 0) {
+		const {style, symbols} = getColors(returnValue);
 		const lines = [];
 		let errorCount = 0;
 		let warningsCount = 0;
@@ -45,7 +80,7 @@ function formatter(results, returnValue) {
 			.toSorted((a, b) => a.text === b.text)
 			.filter((item, index, array) => array.findIndex(d => d.text === item.text) === index)
 			.map(item => ({
-				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2)),
+				text: item.text.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => style('bold', p1 || p2)),
 			}));
 
 		results
@@ -107,7 +142,7 @@ function formatter(results, returnValue) {
 						message = message.replaceAll(/\s\(.+\)$/gv, '');
 
 						// Stylize inline code blocks
-						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => pico.bold(p1 || p2));
+						message = message.replaceAll(/\B"(.*?)"\B|\B'(.*?)'\B/gv, (m, p1, p2) => style('bold', p1 || p2));
 
 						const line = String(x.line || 0);
 						const column = String(x.column || 0);
@@ -152,27 +187,27 @@ function formatter(results, returnValue) {
 
 		if (process.stdout.isTTY && !process.env.CI) {
 			// Make relative paths Cmd+click'able in iTerm
-			output += ansiEscapes.iTerm.setCwd();
+			output += `\u001B]50;CurrentDir=${process.cwd()}\u0007`;
 		}
 
 		output += lines.map(x => {
 			if (x.type === 'header') {
 				// Add the line number so it's Cmd+click'able in some terminals
 				// Use dim & gray for terminals like iTerm that doesn't support `hidden`
-				const position = showLineNumbers ? pico.hidden(pico.dim(pico.gray(`:${x.firstLineCol}`))) : '';
+				const position = showLineNumbers ? style(['hidden', 'dim', 'gray'], `:${x.firstLineCol}`) : '';
 
-				return '  ' + pico.underline(x.relativeFilePath + position);
+				return '  ' + style('underline', x.relativeFilePath + position);
 			}
 
 			if (x.type === 'message') {
 				const supportsHyperlinks = createSupportsHyperlinks(process.stdout);
-				const rule = (x.ruleUrl && supportsHyperlinks ? ansiEscapes.link(x.ruleId, x.ruleUrl) : x.ruleId);
+				const rule = (x.ruleUrl && supportsHyperlinks ? link(x.ruleId, x.ruleUrl) : x.ruleId);
 				const line = [
 					'',
-					x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
-					' '.repeat(maxLineWidth - x.lineWidth) + pico.dim(x.line + pico.gray(':') + x.column),
+					x.severity === 'warning' ? symbols.warning : symbols.error,
+					' '.repeat(maxLineWidth - x.lineWidth) + style('dim', x.line + style('gray', ':') + x.column),
 					' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
-					' '.repeat(maxMessageWidth - x.messageWidth) + pico.dim(rule),
+					' '.repeat(maxMessageWidth - x.messageWidth) + style('dim', rule),
 				];
 
 				if (!showLineNumbers) {
@@ -190,16 +225,16 @@ function formatter(results, returnValue) {
 		}
 
 		if (deprecationsCount + invalidOptionWarningsCount > 0) {
-			output += `  ${pico.underline('Stylelint Configuration')}\n`;
+			output += `  ${style('underline', 'Stylelint Configuration')}\n`;
 		}
 
-		output += deprecations.map(x => '  ' + logSymbols.info + ' ' + x.text).join('\n');
+		output += deprecations.map(x => '  ' + symbols.info + ' ' + x.text).join('\n');
 
 		if (deprecationsCount > 0) {
 			output += '\n';
 		}
 
-		output += invalidOptionWarnings.map(x => '  ' + logSymbols.error + ' ' + x.text).join('\n');
+		output += invalidOptionWarnings.map(x => '  ' + symbols.error + ' ' + x.text).join('\n');
 
 		if (invalidOptionWarningsCount > 0) {
 			output += '\n';
@@ -210,19 +245,19 @@ function formatter(results, returnValue) {
 		}
 
 		if (warningsCount > 0) {
-			output += '  ' + pico.yellow(`${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
+			output += '  ' + style('yellow', `${warningsCount} ${plur('warning', warningsCount)}`) + '\n';
 		}
 
 		if (errorCount > 0) {
-			output += '  ' + pico.red(`${errorCount} ${plur('error', errorCount)}`) + '\n';
+			output += '  ' + style('red', `${errorCount} ${plur('error', errorCount)}`) + '\n';
 		}
 
 		if (deprecationsCount > 0) {
-			output += '  ' + pico.blue(`${deprecationsCount} ${plur('deprecation', deprecationsCount)}`) + '\n';
+			output += '  ' + style('blue', `${deprecationsCount} ${plur('deprecation', deprecationsCount)}`) + '\n';
 		}
 
 		if (invalidOptionWarningsCount > 0) {
-			output += '  ' + pico.red(`${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
+			output += '  ' + style('red', `${invalidOptionWarningsCount} invalid ${plur('option', invalidOptionWarningsCount)}`) + '\n';
 		}
 
 		return (errorCount + warningsCount + deprecationsCount + invalidOptionWarningsCount) > 0 ? output : '';
