@@ -25,9 +25,9 @@
   "type": "module",
   "exports": "./index.js",
   "scripts": {
-    "coverage": "c8 report --reporter=lcov",
+    "coverage": "mkdir -p coverage && node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
     "prepare": "husky",
-    "test": "xo && c8 node --test"
+    "test": "xo && node --test --experimental-test-coverage"
   },
   "files": [
     "index.js"
@@ -46,7 +46,6 @@
     "supports-hyperlinks": "^4.4.0"
   },
   "devDependencies": {
-    "c8": "^12.0.0",
     "husky": "^9.0.10",
     "lint-staged": "^17.0.7",
     "stylelint": "^18.1.0",
@@ -54,9 +53,6 @@
   },
   "peerDependencies": {
     "stylelint": ">=18.0.0"
-  },
-  "overrides": {
-    "yargs": "^18.0.0"
   },
   "lint-staged": {
     "*.js": "xo --fix"
