@@ -1,7 +1,7 @@
 import process from 'node:process';
 import test from 'node:test';
 import assert from 'node:assert';
-import stripAnsi from 'strip-ansi';
+import {stripVTControlCharacters as stripAnsi} from 'node:util';
 import m from '../index.js';
 import defaultFixture from './fixtures/default.js';
 import deprecationsFixture from './fixtures/deprecations.js';
