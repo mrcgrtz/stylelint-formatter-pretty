@@ -2,9 +2,7 @@ import path from 'node:path';
 import process from 'node:process';
 import {stripVTControlCharacters, styleText} from 'node:util';
 import logSymbols from 'log-symbols';
-import plur from 'plur';
 import stringWidth from 'string-width';
-import ansiEscapes from 'ansi-escapes';
 import {createSupportsHyperlinks} from 'supports-hyperlinks';
 
 /**
@@ -23,6 +21,20 @@ function getRuleUrl(rule, linterResult) {
 
 	return ruleUrl;
 }
+
+/**
+ * @param {string} word Singular word
+ * @param {number} count Count
+ * @returns {string} Word, pluralized if needed
+ */
+const plur = (word, count) => (count === 1 ? word : `${word}s`);
+
+/**
+ * @param {string} text Link text
+ * @param {string} url Link URL
+ * @returns {string} Terminal hyperlink
+ */
+const link = (text, url) => `\u001B]8;;${url}\u0007${text}\u001B]8;;\u0007`;
 
 /**
  * Respect the `color` option passed by Stylelint, otherwise detect color support.
@@ -175,7 +187,7 @@ function formatter(results, returnValue) {
 
 		if (process.stdout.isTTY && !process.env.CI) {
 			// Make relative paths Cmd+click'able in iTerm
-			output += ansiEscapes.iTerm.setCwd();
+			output += `\u001B]50;CurrentDir=${process.cwd()}\u0007`;
 		}
 
 		output += lines.map(x => {
@@ -189,7 +201,7 @@ function formatter(results, returnValue) {
 
 			if (x.type === 'message') {
 				const supportsHyperlinks = createSupportsHyperlinks(process.stdout);
-				const rule = (x.ruleUrl && supportsHyperlinks ? ansiEscapes.link(x.ruleId, x.ruleUrl) : x.ruleId);
+				const rule = (x.ruleUrl && supportsHyperlinks ? link(x.ruleId, x.ruleUrl) : x.ruleId);
 				const line = [
 					'',
 					x.severity === 'warning' ? symbols.warning : symbols.error,

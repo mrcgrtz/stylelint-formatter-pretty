@@ -2,7 +2,6 @@ import process from 'node:process';
 import test from 'node:test';
 import assert from 'node:assert';
 import stripAnsi from 'strip-ansi';
-import ansiEscapes from 'ansi-escapes';
 import m from '../index.js';
 import defaultFixture from './fixtures/default.js';
 import deprecationsFixture from './fixtures/deprecations.js';
@@ -69,7 +68,7 @@ test('invalid Stylelint output', () => {
 test('linked rules', () => {
 	enableHyperlinks();
 	const output = m(defaultFixture, linterResultFixture);
-	assert.ok(output.includes(ansiEscapes.link('number-leading-zero', 'https://stylelint.io/user-guide/rules/number-leading-zero')));
+	assert.ok(output.includes('\u001B]8;;https://stylelint.io/user-guide/rules/number-leading-zero\u0007number-leading-zero\u001B]8;;\u0007'));
 });
 
 test('no errors when no URL is found to link a rule', () => {
