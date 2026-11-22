@@ -1,6 +1,7 @@
 import path from 'node:path';
 import process from 'node:process';
-import pico from 'picocolors';
+import {stripVTControlCharacters} from 'node:util';
+import picocolors from 'picocolors';
 import logSymbols from 'log-symbols';
 import plur from 'plur';
 import stringWidth from 'string-width';
@@ -25,10 +26,31 @@ function getRuleUrl(rule, linterResult) {
 }
 
 /**
+ * Respect the `color` option passed by Stylelint, otherwise detect color support.
+ * @param {import('stylelint').LinterResult|undefined} linterResult Linter result
+ * @returns {{pico: import('picocolors').Colors, symbols: typeof logSymbols}} Colors and symbols
+ */
+function getColors(linterResult) {
+	const color = linterResult?.color;
+
+	if (color === undefined) {
+		return {pico: picocolors, symbols: logSymbols};
+	}
+
+	return {
+		pico: picocolors.createColors(color),
+		symbols: color
+			? logSymbols
+			: Object.fromEntries(Object.entries(logSymbols).map(([key, value]) => [key, stripVTControlCharacters(value)])),
+	};
+}
+
+/**
  * @type {import('stylelint').Formatter}
  */
 function formatter(results, returnValue) {
 	if (Array.isArray(results) && results.length > 0) {
+		const {pico, symbols} = getColors(returnValue);
 		const lines = [];
 		let errorCount = 0;
 		let warningsCount = 0;
@@ -169,7 +191,7 @@ function formatter(results, returnValue) {
 				const rule = (x.ruleUrl && supportsHyperlinks ? ansiEscapes.link(x.ruleId, x.ruleUrl) : x.ruleId);
 				const line = [
 					'',
-					x.severity === 'warning' ? logSymbols.warning : logSymbols.error,
+					x.severity === 'warning' ? symbols.warning : symbols.error,
 					' '.repeat(maxLineWidth - x.lineWidth) + pico.dim(x.line + pico.gray(':') + x.column),
 					' '.repeat(maxColumnWidth - x.columnWidth) + x.message,
 					' '.repeat(maxMessageWidth - x.messageWidth) + pico.dim(rule),
@@ -193,13 +215,13 @@ function formatter(results, returnValue) {
 			output += `  ${pico.underline('Stylelint Configuration')}\n`;
 		}
 
-		output += deprecations.map(x => '  ' + logSymbols.info + ' ' + x.text).join('\n');
+		output += deprecations.map(x => '  ' + symbols.info + ' ' + x.text).join('\n');
 
 		if (deprecationsCount > 0) {
 			output += '\n';
 		}
 
-		output += invalidOptionWarnings.map(x => '  ' + logSymbols.error + ' ' + x.text).join('\n');
+		output += invalidOptionWarnings.map(x => '  ' + symbols.error + ' ' + x.text).join('\n');
 
 		if (invalidOptionWarningsCount > 0) {
 			output += '\n';

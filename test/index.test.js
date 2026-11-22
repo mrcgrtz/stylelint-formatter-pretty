@@ -77,3 +77,31 @@ test('no errors when no URL is found to link a rule', () => {
 	const output = m(defaultFixture, linterResultFixture);
 	assert.ok(output.includes('number-no-trailing-zeros'));
 });
+
+test('no colors when Stylelint passes `color: false`', () => {
+	disableHyperlinks();
+	const output = m(defaultFixture, {...linterResultFixture, color: false});
+	assert.equal(output, stripAnsi(output));
+});
+
+test('colors when Stylelint passes `color: true`', () => {
+	disableHyperlinks();
+	const output = m(defaultFixture, {...linterResultFixture, color: true});
+	assert.notEqual(output, stripAnsi(output));
+});
+
+test('works as custom formatter with Stylelint', async () => {
+	disableHyperlinks();
+	const {default: stylelint} = await import('stylelint');
+	const {report} = await stylelint.lint({
+		code: 'a { color: #FFF; }',
+		codeFilename: 'first.css',
+		config: {rules: {'color-hex-length': 'long'}},
+		formatter: m,
+		color: false,
+	});
+	assert.equal(report, stripAnsi(report));
+	assert.match(report, /first\.css:1:12\n/v);
+	assert.match(report, /1:12 {2}Expected #FFF to be #FFFFFF {2}color-hex-length/v);
+	assert.match(report, /1 error/v);
+});
